@@ -275,7 +275,7 @@ def MultipleSupport(patternTag):
 
 
 
-def Plain(gmTag, dispSeriesTag=None, velSeriesTag=None, accelSeriesTag=None, tsInt='Trapezoidal', factor=1.0):
+def PlainGM(gmTag, dispSeriesTag=None, velSeriesTag=None, accelSeriesTag=None, tsInt='Trapezoidal', factor=1.0):
     """
     This command is used to construct a plain GroundMotion object. Each GroundMotion object is associated with a number of TimeSeries objects, which define the acceleration, velocity and displacement records for that ground motion. T
     

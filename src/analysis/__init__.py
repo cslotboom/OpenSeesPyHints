@@ -19,6 +19,8 @@ from . import test
 
 
 import openseespy.opensees as ops
+
+
 def analysis(analysisType):
     """
     This command is used to construct the Analysis object, which defines what type of analysis is to be performed.

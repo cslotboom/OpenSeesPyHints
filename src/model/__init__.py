@@ -6,6 +6,8 @@ from . import block
 
 
 # from .element import *
+from . import element
+
 # from .frictionModel import *
 
 from .geomTransf import *
@@ -64,12 +66,19 @@ def node(nodeTag, crds, ndf=None, mass=None, disp=None, vel=None, accel=None):
     
     ========================   ===========================================================================
     ``nodeTag`` |int|          node tag.
+    
     ``crds`` |listf|           nodal coordinates.
+    
     ``ndf`` |float|            nodal ndf. (optional)
+    
     ``mass`` |listf|           nodal mass. (optional)
-    ```` |listf|           nodal disp. (optional)
+    
+    ``disp`` |listf|           nodal disp. (optional)
+    
     ``vel`` |listf|            nodal velocities. (optional)
+    
     ``accel`` |listf|          nodal accelerations. (optional)
+    
     ========================   ===========================================================================
 
     Hint:

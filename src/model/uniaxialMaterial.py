@@ -115,107 +115,117 @@ def Steel02(matTag, Fy, E0, b, params, a1=None, a2=None, a3=None, a4=None, sigIn
         
     ops.uniaxialMaterial('Steel02', matTag, Fy, E0, b, *params, *uniqueArgs)
 
-# def Steel4(matTag, Fy, E0, asym = False, kin = False, b_k=None, params=None, b_kc=None, R_0c=None, r_1c=None, r_2c=None, 
-#            b_i=None, rho_i=None, b_l=None, R_i=None, l_yp=None, b_ic=None, rho_ic=None, b_lc=None, R_ic=None, f_u=None, R_u=None, f_uc=None, R_uc=None, sig_init=None, cycNum=None):
-#     """
+def Steel4(matTag, Fy, E0, asym = False, kin = False, b_k=None, params=None, b_kc=None, paramsC=None, 
+           iso = True, b_i=None, rho_i=None, b_l=None, R_i=None, l_yp=None, b_ic=None, rho_ic=None, b_lc=None, R_ic=None, f_u=None, R_u=None, f_uc=None, R_uc=None, sig_init=None, cycNum=None):
+    """
 
-#     This command is used to construct a general uniaxial material with combined kinematic and isotropic hardening and optional non-symmetric behavior.
+    This command is used to construct a general uniaxial material with combined kinematic and isotropic hardening and optional non-symmetric behavior.
     
-#     ===================================   ===========================================================================
-#     ``matTag`` |int|                      integer tag identifying material
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
     
-#     ``Fy`` |float|                        yield strength
+    ``Fy`` |float|                        yield strength
     
-#     ``E0`` |float|                        initial elastic tangent
+    ``E0`` |float|                        initial elastic tangent
     
-#     ``'-asym'`` |str|                     assume non-symmetric behavior
+    ``'-asym'`` |str|                     assume non-symmetric behavior. If toggled, then b_kc and paramsC must be input.
     
-#     ``'-kin'`` |str|                      apply kinematic hardening
+    ``'-kin'`` |str|                      apply kinematic hardening
     
-#     ``b_k`` |float|                       hardening ratio (E_k/E_0)
+    ``b_k`` |float|                       hardening ratio (E_k/E_0)
     
-#     ``params`` |listf|                    control the exponential transition from linear elastic to hardening asymptote
-#                                           ``params=[R_0,r_1,r_2]``.
-#                                           Recommended values: ``R_0 = 20, r_1 = 0.90, r_2 = 0.15``
+    ``params`` |listf|                    control the exponential transition from linear elastic to hardening asymptote
+                                          ``params=[R_0,r_1,r_2]``.
+                                          Recommended values: ``R_0 = 20, r_1 = 0.90, r_2 = 0.15``
+                                          
+    ``b_kc`` |float|                      hardening ratio for compression(E_k/E_0)
     
-#     ``'-iso'`` |str|                      apply isotropic hardening
-    
-#     ``b_i`` |float|                       initial hardening ratio (E_i/E_0)
-    
-#     ``b_l`` |float|                       saturated hardening ratio (E_is/E_0)
-    
-#     ``rho_i`` |float|                     specifies the position of the intersection point
-#                                           between initial and saturated hardening asymptotes
-    
-#     ``R_i`` |float|                       control the exponential transition from initial
-#                                           to saturated asymptote
-    
-#     ``l_yp`` |float|                      length of the yield plateau in eps_y0 = f_y / E_0 units
-    
-#     ``'-ult'`` |str|                      apply an ultimate strength limit
-    
-#     ``f_u`` |float|                       ultimate strength
-    
-#     ``R_u`` |float|                       control the exponential transition from
-#                                           kinematic hardening to perfectly plastic asymptote
+    ``paramsC`` |listf|                    control the compression exponential transition from linear elastic to hardening asymptote
+                                          ``params=[R_0,r_1,r_2]``.
+                                          Recommended values: ``R_0 = 20, r_1 = 0.90, r_2 = 0.15``
 
-#     ``'-init'`` |str|                     apply initial stress
+    ``'-iso'`` |str|                      apply isotropic hardening
     
-#     ``sig_init`` |float|                  initial stress value
+    ``b_i`` |float|                       initial hardening ratio (E_i/E_0)
     
-#     ``'-mem'`` |str|                      configure the load history memory
+    ``b_l`` |float|                       saturated hardening ratio (E_is/E_0)
     
-#     ``cycNum`` |float|                    expected number of half-cycles during the loading
-#                                           process
-#                                           Efficiency of the material can be slightly
-#                                           increased by correctly setting this value.
-#                                           The default value is ``cycNum = 50``
-#                                           Load history memory can be turned off by
-#                                           setting ``cycNum = 0``.
+    ``rho_i`` |float|                     specifies the position of the intersection point
+                                          between initial and saturated hardening asymptotes
     
-#     ===================================   ===========================================================================
+    ``R_i`` |float|                       control the exponential transition from initial
+                                          to saturated asymptote
+    
+    ``l_yp`` |float|                      length of the yield plateau in eps_y0 = f_y / E_0 units
+    
+    ``'-ult'`` |str|                      apply an ultimate strength limit
+    
+    ``f_u`` |float|                       ultimate strength
+    
+    ``R_u`` |float|                       control the exponential transition from
+                                          kinematic hardening to perfectly plastic asymptote
 
-#     .. seealso::
+    ``'-init'`` |str|                     apply initial stress
+    
+    ``sig_init`` |float|                  initial stress value
+    
+    ``'-mem'`` |str|                      configure the load history memory
+    
+    ``cycNum`` |float|                    expected number of half-cycles during the loading
+                                          process
+                                          Efficiency of the material can be slightly
+                                          increased by correctly setting this value.
+                                          The default value is ``cycNum = 50``
+                                          Load history memory can be turned off by
+                                          setting ``cycNum = 0``.
+    
+    ===================================   ===========================================================================
+
+    .. seealso::
 
 
-#        `Steel4 <http://opensees.berkeley.edu/wiki/index.php/Steel4_Material>`_
+        `Steel4 <http://opensees.berkeley.edu/wiki/index.php/Steel4_Material>`_
 
-#     """
-#     uniqueArgs = []
-#     if asym:
-#         uniqueArgs.append('-asym')
-#     if b_k:
-#         uniqueArgs.append('-kin')
-#         uniqueArgs.append(b_k)
-#         uniqueArgs += params
-#         uniqueArgs.append(b_kc)
-#         uniqueArgs.append(R_0c)
-#         uniqueArgs.append(r_1c)
-#         uniqueArgs.append(r_2c)
-#     if b_i:
-#         uniqueArgs.append('-iso')
-#         uniqueArgs.append(b_i)
-#         uniqueArgs.append(rho_i)
-#         uniqueArgs.append(b_l)
-#         uniqueArgs.append(R_i)
-#         uniqueArgs.append(l_yp)
-#         uniqueArgs.append(b_ic)
-#         uniqueArgs.append(rho_ic)
-#         uniqueArgs.append(b_lc)
-#         uniqueArgs.append(R_ic)
-#     if f_u:
-#         uniqueArgs.append('-ult')
-#         uniqueArgs.append(f_u)
-#         uniqueArgs.append(R_u)
-#         uniqueArgs.append(f_uc)
-#         uniqueArgs.append(R_uc)
-#     if sig_init:
-#         uniqueArgs.append('-init')
-#         uniqueArgs.append(sig_init)
-#     if cycNum:
-#         uniqueArgs.append('-mem')
-#         uniqueArgs.append(cycNum)
-#     ops.uniaxialMaterial('Steel4', matTag, Fy, E0, *uniqueArgs)
+
+    Hints:
+        Untested
+    """
+    uniqueArgs = []
+    if asym:
+        uniqueArgs.append('-asym')
+    if b_k:
+        uniqueArgs.append('-kin')
+        uniqueArgs.append(b_k)
+        uniqueArgs += params
+    if asym and b_kc:
+        uniqueArgs.append(b_kc)
+        uniqueArgs += paramsC
+                
+        
+    if iso:
+        uniqueArgs.append('-iso')
+        uniqueArgs.append(b_i)
+        uniqueArgs.append(b_l)
+        uniqueArgs.append(R_i)
+        uniqueArgs.append(l_yp)
+        uniqueArgs.append(b_ic)
+        uniqueArgs.append(rho_ic)
+        uniqueArgs.append(b_lc)
+        uniqueArgs.append(R_ic)
+        
+    if f_u:
+        uniqueArgs.append('-ult')
+        uniqueArgs.append(f_u)
+        uniqueArgs.append(R_u)
+        uniqueArgs.append(f_uc)
+        uniqueArgs.append(R_uc)
+    if sig_init:
+        uniqueArgs.append('-init')
+        uniqueArgs.append(sig_init)
+    if cycNum:
+        uniqueArgs.append('-mem')
+        uniqueArgs.append(cycNum)
+    ops.uniaxialMaterial('Steel4', matTag, Fy, E0, *uniqueArgs)
 
 def Hysteretic(matTag, p1, p2, p3, n1, n2, n3, pinchX, pinchY, damage1, damage2, beta):
     """
@@ -268,6 +278,8 @@ def Hysteretic(matTag, p1, p2, p3, n1, n2, n3, pinchX, pinchY, damage1, damage2,
     
         `Hysteretic <http://opensees.berkeley.edu/wiki/index.php/Hysteretic_Material>`_
 
+    Hints:
+        Untested
     """
     ops.uniaxialMaterial('Hysteretic', matTag, *p1, *p2, *p3, *n1, *n2, *n3, pinchX, pinchY, damage1, damage2, beta)
 
@@ -515,6 +527,8 @@ def SteelMPF(matTag, fyp, fyn, E0, bp, bn, params, a1, a2, a3, a4):
 
         `Notes <http://opensees.berkeley.edu/wiki/index.php/SteelMPF_-_Menegotto_and_Pinto_(1973)_Model_Extended_by_Filippou_et_al._(1983)>`_
 
+    Hints:
+        Untested
     """
     uniqueArgs = []
     if a1:
@@ -576,639 +590,501 @@ def SteelMPF(matTag, fyp, fyn, E0, bp, bn, params, a1, a2, a3, a4):
 #     uniqueArgs = []
 #     ops.uniaxialMaterial('Steel01Thermal', matTag, Fy, E0, b, a1, a2, a3, a4, *uniqueArgs)
 
-# def Concrete01(matTag, fpc, epsc0, fpcu, epsU):
-#     """
+def Concrete01(matTag, fpc, epsc0, fpcu, epsU):
+    """
 
+    This command is used to construct a uniaxial Kent-Scott-Park concrete 
+    material object with degraded linear unloading/reloading stiffness 
+    according to the work of Karsan-Jirsa and no tensile strength. 
+    (REF: Fedeas).
 
-#    This command is used to construct a uniaxial Kent-Scott-Park concrete material object with degraded linear unloading/reloading stiffness according to the work of Karsan-Jirsa and no tensile strength. (REF: Fedeas).
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``fpc`` |float|                       concrete compressive strength at 28 days (compression is negative)
 
+    ``epsc0`` |float|                     concrete strain at maximum strength
 
-#    ===================================   ===========================================================================
+    ``fpcu`` |float|                      concrete crushing strength
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``epsU`` |float|                      concrete strain at crushing strength
 
-#    ``fpc`` |float|                       concrete compressive strength at 28 days (compression is negative)
+    ===================================   ===========================================================================
 
-#    ``epsc0`` |float|                     concrete strain at maximum strength
+    .. note::
 
-#    ``fpcu`` |float|                      concrete crushing strength
+    #. Compressive concrete parameters should be input as negative values (if input as positive, they will be converted to negative internally).
+    
+    #. The initial slope for this model is (2*fpc/epsc0)
 
-#    ``epsU`` |float|                      concrete strain at crushing strength
 
-#    ===================================   ===========================================================================
+    .. seealso::
+    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete01_Material_--_Zero_Tensile_Strength>`_
 
+    Hints:
+        Untested
+    """
+    ops.uniaxialMaterial('Concrete01', matTag, fpc, epsc0, fpcu, epsU)
 
+def Concrete02(matTag, fpc, epsc0, fpcu, epsU, Lambda, ft, Ets):
+    """
+    This command is used to construct a uniaxial Kent-Scott-Park concrete 
+    material object with degraded linear unloading/reloading stiffness 
+    according to the work of Karsan-Jirsa and no tensile strength. (REF: Fedeas).
 
-# .. note::
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``fpc`` |float|                       concrete compressive strength at 28 days (compression is negative)
 
+    ``epsc0`` |float|                     concrete strain at maximum strength
 
-#    #. Compressive concrete parameters should be input as negative values (if input as positive, they will be converted to negative internally).
+    ``fpcu`` |float|                      concrete crushing strength
 
-#    #. The initial slope for this model is (2*fpc/epsc0)
+    ``epsU`` |float|                      concrete strain at crushing strength
 
+    ``lambda`` |float|                    ratio between unloading slope at $epscu and initial slope
 
+    ``ft`` |float|                        tensile strength
 
+    ``Ets`` |float|                       tension softening stiffness (absolute value) (slope of the linear tension softening branch)
+    ===================================   ===========================================================================
 
+    .. note::
+    
+    
+        #. Compressive concrete parameters should be input as negative values (if input as positive, they will be converted to negative internally).
+    
+        #. The initial slope for this model is (2*fpc/epsc0)
 
-# .. seealso::
+    .. seealso::
+    
+   
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete02_Material_--_Linear_Tension_Softening>`_
 
+    Hints:
+        Untested
+    """
+    ops.uniaxialMaterial('Concrete02', matTag, fpc, epsc0, fpcu, epsU, Lambda, ft, Ets)
 
+def Concrete04(matTag, fc, epsc, epscu, Ec, fct, et, beta):
+    """
 
+    This command is used to construct a uniaxial Popovics concrete material 
+    object with degraded linear unloading/reloading stiffness according to the 
+    work of Karsan-Jirsa and tensile strength with exponential decay.
 
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete01_Material_--_Zero_Tensile_Strength>`_
+    ``fc`` |float|                        floating point values defining concrete
+                                          compressive strength at 28 days (compression is negative)
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Concrete01', matTag, fpc, epsc0, fpcu, epsU, *uniqueArgs)
+    ``epsc`` |float|                      floating point values defining concrete strain at maximum strength
 
-# def Concrete02(matTag, fpc, epsc0, fpcu, epsU, lambda, ft, Ets):
-#     """
+    ``epscu`` |float|                     floating point values defining concrete strain at crushing strength
 
+    ``Ec`` |float|                        floating point values defining initial stiffness
 
-#    This command is used to construct a uniaxial Kent-Scott-Park concrete material object with degraded linear unloading/reloading stiffness according to the work of Karsan-Jirsa and no tensile strength. (REF: Fedeas).
+    ``fct`` |float|                       floating point value defining the maximum tensile strength of concrete (optional)
 
+    ``et`` |float|                        floating point value defining ultimate tensile strain of concrete (optional)
 
+    ``beta`` |float|                      loating point value defining the exponential curve parameter to define the residual
+                                          stress (as a factor of ft) at etu
+    ===================================   ===========================================================================
 
-#    ===================================   ===========================================================================
 
-#    ``matTag`` |int|                      integer tag identifying material
+    .. note::
+    
+        #. Compressive concrete parameters should be input as negative values.
+    
+        #. The envelope of the compressive stress-strain response is defined using the model proposed by Popovics (1973). If the user defines :math:`Ec = 57000*sqrt(|fcc|)` (in psi)' then the envelope curve is identical to proposed by Mander et al. (1988).
+    
+        #. Model Characteristic: For loading in compression, the envelope to the stress-strain curve follows the model proposed by Popovics (1973) until the concrete crushing strength is achieved and also for strains beyond that corresponding to the crushing strength. For unloading and reloading in compression, the Karsan-Jirsa model (1969) is used to determine the slope of the curve. For tensile loading, an exponential curve is used to define the envelope to the stress-strain curve. For unloading and reloading in tensile, the secant stiffness is used to define the path.
+    
+    
+    .. seealso::
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete04_Material_--_Popovics_Concrete_Material>`_
 
-#    ``fpc`` |float|                       concrete compressive strength at 28 days (compression is negative)
+    Hints:
+        Untested
+    """
+    ops.uniaxialMaterial('Concrete04', matTag, fc, epsc, epscu, Ec, fct, et, beta)
 
-#    ``epsc0`` |float|                     concrete strain at maximum strength
+def Concrete06(matTag, fc, e0, n, k, alpha1, fcr, ecr, b, alpha2):
+    """
+    This command is used to construct a uniaxial concrete material object with 
+    tensile strength, nonlinear tension stiffening and compressive behavior 
+    based on Thorenfeldt curve.
 
-#    ``fpcu`` |float|                      concrete crushing strength
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ``epsU`` |float|                      concrete strain at crushing strength
+    ``fc`` |float|                        concrete compressive strength (compression is negative)
 
-#    ``lambda`` |float|                    ratio between unloading slope at $epscu and initial slope
+    ``e0`` |float|                        strain  at compressive strength
 
-#    ``ft`` |float|                        tensile strength
+    ``n`` |float|                         compressive shape factor
 
-#    ``Ets`` |float|                       tension softening stiffness (absolute value) (slope of the linear tension softening branch)
+    ``k`` |float|                         post-peak compressive shape factor
 
+    ``alpha1`` |float|                    :math:`\alpha_1` parameter for compressive plastic strain definition
 
+    ``fcr`` |float|                       tensile strength
 
-#    ===================================   ===========================================================================
+    ``ecr`` |float|                       tensile strain at peak stress (fcr)
 
+    ``b`` |float|                         exponent of the tension stiffening curve
 
+    ``alpha2`` |float|                    :math:`\alpha_2` parameter for tensile plastic strain definition
+    ===================================   ===========================================================================
 
-# .. note::
+    .. note::
+    
+        #. Compressive concrete parameters should be input as negative values.
+    
+    .. seealso::
+    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete06_Material>`_
 
+    Hints:
+        Untested
+    """
+    ops.uniaxialMaterial('Concrete06', matTag, fc, e0, n, k, alpha1, fcr, ecr, b, alpha2)
 
+def Concrete07(matTag, fc, epsc, Ec, ft, et, xp, xn, r):
+    """
 
-#    #. Compressive concrete parameters should be input as negative values (if input as positive, they will be converted to negative internally).
+    Concrete07 is an implementation of Chang & Mander's 1994 concrete model 
+    with simplified unloading and reloading curves. Additionally the tension 
+    envelope shift with respect to the origin proposed by Chang and Mander has 
+    been removed. The model requires eight input parameters to define the 
+    monotonic envelope of confined and unconfined concrete in the following 
+    form:
 
-#    #. The initial slope for this model is (2*fpc/epsc0)
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``fc`` |float|                        concrete compressive strength (compression is negative)
 
+    ``epsc`` |float|                      concrete strain at maximum compressive strength
 
+    ``Ec`` |float|                        Initial Elastic modulus of the concrete
 
-# .. seealso::
+    ``ft`` |float|                        tensile strength of concrete (tension is positive)
 
+    ``et`` |float|                        tensile strain at max tensile strength of concrete
 
+    ``xp`` |float|                        Non-dimensional term that defines the strain at
+                                          which the straight line descent begins in tension
 
+    ``xn`` |float|                        Non-dimensional term that defines the strain at
+                                          which the straight line descent begins in compression
 
+    ``r`` |float|                         Parameter that controls the nonlinear descending branch
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete02_Material_--_Linear_Tension_Softening>`_
+    ===================================   ===========================================================================
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Concrete02', matTag, fpc, epsc0, fpcu, epsU, lambda, ft, Ets, *uniqueArgs)
 
-# def Concrete04(matTag, fc, epsc, epscu, Ec, fct, et, beta):
-#     """
+.. seealso::
 
+    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete07_%E2%80%93_Chang_%26_Mander%E2%80%99s_1994_Concrete_Model>`_
 
-#    This command is used to construct a uniaxial Popovics concrete material object with degraded linear unloading/reloading stiffness according to the work of Karsan-Jirsa and tensile strength with exponential decay.
+    Hints:
+        Untested
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('Concrete07', matTag, fc, epsc, Ec, ft, et, xp, xn, r, *uniqueArgs)
 
+def Concrete01WithSITC(matTag, fpc, epsc0, fpcu, epsU, endStrainSITC):
+    """
+    This command is used to construct a modified uniaxial Kent-Scott-Park 
+    concrete material object with degraded linear unloading/reloading stiffness
+    according to the work of Karsan-Jirsa and no tensile strength. The 
+    modification is to model the effect of Stuff In The Cracks (SITC).
 
+    ===================================   ===========================================================================
 
-#    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``fpc`` |float|                       concrete compressive strength at 28 days (compression is negative)
 
-#    ``fc`` |float|                        floating point values defining concrete
+    ``epsc0`` |float|                     concrete strain at maximum strength
 
-#                                          compressive strength at 28 days (compression is negative)
+    ``fpcu`` |float|                      concrete crushing strength
 
-#    ``epsc`` |float|                        floating point values defining concrete strain at maximum strength
+    ``epsU`` |float|                      concrete strain at crushing strength
 
-#    ``epscu`` |float|                       floating point values defining concrete strain at crushing strength
+    ``endStrainSITC`` |float|                     optional, default = 0.03
 
-#    ``Ec`` |float|                        floating point values defining initial stiffness
+    ===================================   ===========================================================================
 
-#    ``fct`` |float|                       floating point value defining the maximum tensile strength of concrete (optional)
+    .. note::
+    
+    
+        #. Compressive concrete parameters should be input as negative values (if input as positive, they will be converted to negative internally).
+    
+        #. The initial slope for this model is (2*fpc/epsc0)
+    
+    .. seealso::
+    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete01_Material_With_Stuff_in_the_Cracks>`_
 
-#    ``et`` |float|                        floating point value defining ultimate tensile strain of concrete (optional)
+    Hints:
+        Untested
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('Concrete01WithSITC', matTag, fpc, epsc0, fpcu, epsU, endStrainSITC, *uniqueArgs)
 
-#    ``beta`` |float|                      loating point value defining the exponential curve parameter to define the residual
+def ConfinedConcrete01(matTag, secType, fpc, Ec, epscu_type, epscu_val, nu, L1, L2, L3, phis, S, fyh, Es0, haRatio, 
+                       mu, phiLon, internalArgs=None, wrapArgs=None, gravel = False, silica=False, tol=None, maxNumIter=None, epscuLimit=None, stRatio=None):
+    """
 
-#                                          stress (as a factor of ft) at etu
 
-#    ===================================   ===========================================================================
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``secType`` |str|                     tag for the transverse reinforcement configuration.
+                                          see `img <https://openseespydoc.readthedocs.io/en/latest/_images/545px-SectionTypes.png>`_
+                                          
+                                          - ``'S1'`` square section with S1 type of transverse reinforcement with or without external FRP wrapping
+                                          - ``'S2'`` square section with S2 type of transverse reinforcement with or without external FRP wrapping
+                                          - ``'S3'`` square section with S3 type of transverse reinforcement with or without external FRP wrapping
+                                          - ``'S4a'`` square section with S4a type of transverse reinforcement with or without external FRP wrapping
+                                          - ``'S4b'`` square section with S4b type of transverse reinforcement with or without external FRP wrapping
+                                          - ``'S5'`` square section with S5 type of transverse reinforcement with or without external FRP wrapping
+                                          - ``'C'`` circular section with or without external FRP wrapping
+                                          - ``'R'`` rectangular section with or without external FRP wrapping.
 
-# .. note::
+    ``fpc`` |float|                       unconfined cylindrical strength of concrete specimen.
 
+    ``Ec`` |float|                        initial elastic modulus of unconfined concrete.
 
+    ``epscu_type`` |str|                  Method to define confined concrete ultimate strain
+                                          - ``-epscu`` then value is confined concrete ultimate strain,
+                                          - ``-gamma`` then value is the ratio of the strength corresponding to ultimate
+                                          strain to the peak strength of the confined concrete
+                                          stress-strain curve. If ``gamma`` cannot be achieved
+                                          in the range [0, epscuLimit] then epscuLimit
+                                          (optional, default: 0.05) will be assumed as
+                                          ultimate strain.
 
-#    #. Compressive concrete parameters should be input as negative values.
+    ``epscu_val`` |float|                 Value for the definition of the concrete ultimate strain
 
-#    #. The envelope of the compressive stress-strain response is defined using the model proposed by Popovics (1973). If the user defines :math:`Ec = 57000*sqrt(|fcc|)` (in psi)' then the envelope curve is identical to proposed by Mander et al. (1988).
+    ``nu`` |str| or |list|                Definition for Poisson's Ratio.
+                                          - ``['-nu', <value of Poisson's ratio>]``
+                                          - ``'-varub'`` Poisson's ratio is defined as a function of axial
+                                          strain by means of the expression proposed by Braga et al. (2006) with the
+                                          upper bound equal to 0.5
+                                          -``'-varnoub'`` Poisson's ratio is defined as a function of axial
+                                          strain by means of the expression proposed by Braga
+                                          et al. (2006) without any upper bound.
 
-#    #. Model Characteristic: For loading in compression, the envelope to the stress-strain curve follows the model proposed by Popovics (1973) until the concrete crushing strength is achieved and also for strains beyond that corresponding to the crushing strength. For unloading and reloading in compression, the Karsan-Jirsa model (1969) is used to determine the slope of the curve. For tensile loading, an exponential curve is used to define the envelope to the stress-strain curve. For unloading and reloading in tensile, the secant stiffness is used to define the path.
+    ``L1`` |float|                        length/diameter of square/circular core section
+                                          measured respect to the hoop center line.
 
+    ``L2`` |float|                        additional dimensions when multiple hoops are being used.
 
+    ``L3`` |float|                        additional dimensions when multiple hoops are being used.
 
+    ``phis`` |float|                      hoop diameter. If section arrangement has multiple
+                                          hoops it refers to the external hoop.
 
+    ``S`` |float|                         hoop spacing.
 
-# .. seealso::
+    ``fyh`` |float|                       yielding strength of the hoop steel.
 
+    ``Es0`` |float|                       elastic modulus of the hoop steel.
 
+    ``haRatio`` |float|                   hardening ratio of the hoop steel.
 
+    ``mu`` |float|                        ductility factor of the hoop steel.
 
+    ``phiLon`` |float|                    diameter of longitudinal bars.
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete04_Material_--_Popovics_Concrete_Material>`_
+    ``internalArgs`` |listf|              ``internalArgs= [phisi, Si, fyhi, Es0i, haRatioi, mui]``
+                                          optional parameters for defining the internal
+                                          transverse reinforcement. If they are not specified
+                                          they will be assumed equal to the external ones
+                                          (for ``S2``, ``S3``, ``S4a``, ``S4b`` and ``S5`` typed).
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Concrete04', matTag, fc, epsc, epscu, Ec, fct, et, beta, *uniqueArgs)
+    ``wrapArgs`` |listf|                  ``wrapArgs=[cover, Am, Sw, ful, Es0w]``
+                                          optional parameters required when section is
+                                          strengthened with FRP wraps.
 
-# def Concrete06(matTag, fc, e0, n, k, alpha1, fcr, ecr, b, alpha2):
-#     """
+                                          - ``cover`` cover thickness measured from the outer line of hoop.
+                                          - ``Am`` total area of FRP wraps (number of layers x wrap thickness x wrap width).
+                                          - ``Sw`` spacing of FRP wraps (if continuous wraps are used the spacing is equal to the wrap width).
+                                          - ``ful`` ultimate strength of FRP wraps.
+                                          - ``Es0w`` elastic modulus of FRP wraps.
 
+    ``'-gravel'`` |str|                   Unknown
 
-#    This command is used to construct a uniaxial concrete material object with tensile strength, nonlinear tension stiffening and compressive behavior based on Thorenfeldt curve.
+    ``'-silica'`` |str|                   Unknown
 
+    ``tol``       |float|                 Unknown
 
+    ``maxNumIter`` |int|                  Unknown
 
-#    ===================================   ===========================================================================
+    ``epscuLimit`` |float|                Unknown
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``stRatio``                           Unknown
 
-#    ``fc`` |float|                        concrete compressive strength (compression is negative)
+    ===================================   ===========================================================================
 
-#    ``e0`` |float|                        strain  at compressive strength
 
-#    ``n`` |float|                         compressive shape factor
 
-#    ``k`` |float|                         post-peak compressive shape factor
+.. seealso::
 
-#    ``alpha1`` |float|                    :math:`\alpha_1` parameter for compressive plastic strain definition
 
-#    ``fcr`` |float|                       tensile strength
+    `wiki <https://openseespydoc.readthedocs.io/en/latest/src/ConfinedConcrete01.html>`_
+    
+    `Notes <http://opensees.berkeley.edu/wiki/index.php/ConfinedConcrete01_Material>`_
 
-#    ``ecr`` |float|                       tensile strain at peak stress (fcr)
+    Hints:
+        Untested
+    """
+    uniqueArgs = []
+    if internalArgs:
+        uniqueArgs.append('-internal')
+        uniqueArgs.append(internalArgs)
+    if wrapArgs:
+        uniqueArgs.append('-wrap')
+        uniqueArgs.append(wrapArgs)
+    if gravel:
+        uniqueArgs.append('-gravel')
+    if silica:
+        uniqueArgs.append('-silica')
+    if tol:
+        uniqueArgs.append('-tol')
+        uniqueArgs.append(tol)
+    if maxNumIter:
+        uniqueArgs.append('-maxNumIter')
+        uniqueArgs.append(maxNumIter)
+    if epscuLimit:
+        uniqueArgs.append('-epscuLimit')
+        uniqueArgs.append(epscuLimit)
+    if stRatio:
+        uniqueArgs.append('-stRatio')
+        uniqueArgs.append(stRatio)
+    ops.uniaxialMaterial('ConfinedConcrete01', matTag, secType, fpc, Ec, epscu_type, epscu_val, nu, L1, L2, L3, phis, S, fyh, Es0, haRatio, mu, phiLon, *uniqueArgs)
 
-#    ``b`` |float|                         exponent of the tension stiffening curve
+def ConcreteD(matTag, fc, epsc, ft, epst, Ec, alphac, alphat, cesp, etap):
+    """
 
-#    ``alpha2`` |float|                    :math:`\alpha_2` parameter for tensile plastic strain definition
+    This command is used to construct a concrete material based on the Chinese design code.
 
-#    ===================================   ===========================================================================
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``fc`` |float|                        concrete compressive strength
 
+    ``epsc`` |float|                      concrete strain at corresponding to compressive strength
 
-# .. note::
+    ``ft`` |float|                        concrete tensile strength
 
+    ``epst`` |float|                      concrete strain at corresponding to tensile strength
 
+    ``Ec`` |float|                        concrete initial Elastic modulus
 
-#    #. Compressive concrete parameters should be input as negative values.
+    ``alphac`` |float|                    compressive descending parameter
 
+    ``alphat`` |float|                    tensile descending parameter
 
+    ``cesp`` |float|                      plastic parameter, recommended values: 0.2~0.3
 
+    ``etap`` |float|                      plastic parameter, recommended values: 1.0~1.3
+    ===================================   ===========================================================================
 
+.. note::
 
-# .. seealso::
+    #. Concrete compressive strength and the corresponding strain should be input as negative values.
 
+    #. The value ``fc/epsc`` and ``ft/epst`` should be smaller than ``Ec``.
 
+.. seealso::
 
+    `Notes <http://opensees.berkeley.edu/wiki/index.php/ConcreteD>`_
 
+    """
+    ops.uniaxialMaterial('ConcreteD', matTag, fc, epsc, ft, epst, Ec, alphac, alphat, cesp, etap)
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete06_Material>`_
+def FRPConfinedConcrete(matTag, fpc1, fpc2, epsc0, D, c, Ej, Sj, tj, eju, S, fyl, fyh, dlong, dtrans, Es, nu0, k, useBuck):
+    """
+    This command is used to construct a uniaxial Megalooikonomou-Monti-Santini concrete material object with degraded linear unloading/reloading stiffness according to the work of Karsan-Jirsa and no tensile strength.
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Concrete06', matTag, fc, e0, n, k, alpha1, fcr, ecr, b, alpha2, *uniqueArgs)
+    ===================================   ===========================================================================
 
-# def Concrete07(matTag, fc, epsc, Ec, ft, et, xp, xn, r):
-#     """
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``fpc1`` |float|                      concrete core compressive strength.
 
-#    Concrete07 is an implementation of Chang & Mander's 1994 concrete model with simplified unloading and reloading curves. Additionally the tension envelope shift with respect to the origin proposed by Chang and Mander has been removed. The model requires eight input parameters to define the monotonic envelope of confined and unconfined concrete in the following form:
+    ``fpc2`` |float|                      concrete cover compressive strength.
 
+    ``epsc0`` |float|                     strain corresponding to unconfined concrete strength.
 
+    ``D`` |float|                         diameter of the circular section.
 
-#    ===================================   ===========================================================================
+    ``c`` |float|                         dimension of concrete cover (until the outer edge of steel stirrups)
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``Ej`` |float|                        elastic modulus of the fiber reinforced polymer (FRP) jacket.
 
-#    ``fc`` |float|                        concrete compressive strength (compression is negative)
+    ``Sj`` |float|                        clear spacing of the FRP strips - zero if FRP jacket is continuous.
 
-#    ``epsc`` |float|                        concrete strain at maximum compressive strength
+    ``tj`` |float|                        total thickness of the FRP jacket.
 
-#    ``Ec`` |float|                        Initial Elastic modulus of the concrete
+    ``eju`` |float|                       rupture strain of the FRP jacket from tensile coupons.
 
-#    ``ft`` |float|                        tensile strength of concrete (tension is positive)
+    ``S`` |float|                         spacing of the steel spiral/stirrups.
 
-#    ``et`` |float|                        tensile strain at max tensile strength of concrete
+    ``fyl`` |float|                       yielding strength of longitudinal steel bars.
 
-#    ``xp`` |float|                        Non-dimensional term that defines the strain at
+    ``fyh`` |float|                       yielding strength of the steel spiral/stirrups.
 
-#                                          which the straight line descent begins in tension
+    ``dlong`` |float|                     diameter of the longitudinal bars of the circular section.
 
-#    ``xn`` |float|                        Non-dimensional term that defines the strain at
+    ``dtrans`` |float|                    diameter of the steel spiral/stirrups.
 
-#                                          which the straight line descent begins in compression
+    ``Es`` |float|                        elastic modulus of steel.
 
-#    ``r`` |float|                         Parameter that controls the nonlinear descending branch
+    ``nu0`` |float|                       initial Poisson's coefficient for concrete.
 
-#    ===================================   ===========================================================================
+    ``k`` |float|                         reduction factor for the rupture strain of the FRP
+                                          jacket, recommended values 0.5-0.8.
 
+    ``useBuck`` |float|                   FRP jacket failure criterion due to buckling of longitudinal compressive steel bars (0 = not                                            include it, 1= to include it).
 
+    ===================================   ===========================================================================
 
-# .. seealso::
 
+    .. note::
+    
+        #.IMPORTANT: The units of the input parameters should be in MPa, N, mm.
+    
+        #.Concrete compressive strengths and the corresponding strain should be input as positive values.
+    
+        #.When rupture of FRP jacket occurs due to dilation of concrete (lateral concrete strain exceeding reduced rupture strain of FRP jacket), the analysis is not terminated. Only a message "FRP Rupture" is plotted on the screen.
+    
+        #.When $useBuck input parameter is on (equal to 1) and the model's longitudinal steel buckling conditions are fulfilled, a message "Initiation of Buckling of Long.Bar under Compression" is plotted on the screen.
+    
+        #.When rupture of FRP jacket occurs due to its interaction with buckled longitudinal compressive steel bars, the analysis is not terminated. Only a message "FRP Rupture due to Buckling of Long.Bar under compression" is plotted on the screen.
+    
+    .. seealso::
+    
+    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/FRPConfinedConcrete>`_
 
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete07_%E2%80%93_Chang_%26_Mander%E2%80%99s_1994_Concrete_Model>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Concrete07', matTag, fc, epsc, Ec, ft, et, xp, xn, r, *uniqueArgs)
-
-# def Concrete01WithSITC(matTag, fpc, epsc0, fpcu, epsU, endStrainSITC):
-#     """
-
-
-#    This command is used to construct a modified uniaxial Kent-Scott-Park concrete material object with degraded linear unloading/reloading stiffness according to the work of Karsan-Jirsa and no tensile strength. The modification is to model the effect of Stuff In The Cracks (SITC).
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``fpc`` |float|                       concrete compressive strength at 28 days (compression is negative)
-
-#    ``epsc0`` |float|                     concrete strain at maximum strength
-
-#    ``fpcu`` |float|                      concrete crushing strength
-
-#    ``epsU`` |float|                      concrete strain at crushing strength
-
-#    ``endStrainSITC`` |float|                     optional, default = 0.03
-
-#    ===================================   ===========================================================================
-
-
-
-# .. note::
-
-
-
-#    #. Compressive concrete parameters should be input as negative values (if input as positive, they will be converted to negative internally).
-
-#    #. The initial slope for this model is (2*fpc/epsc0)
-
-
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Concrete01_Material_With_Stuff_in_the_Cracks>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Concrete01WithSITC', matTag, fpc, epsc0, fpcu, epsU, endStrainSITC, *uniqueArgs)
-
-# def ConfinedConcrete01(matTag, secType, fpc, Ec, epscu_type, epscu_val, nu, L1, L2, L3, phis, S, fyh, Es0, haRatio, mu, phiLon, internalArgs=None, wrapArgs=None, tol=None, maxNumIter=None, epscuLimit=None, stRatio=None):
-#     """
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``secType`` |str|                     tag for the transverse reinforcement configuration.
-
-#                                          see image below.
-
-
-
-#                                          - ``'S1'`` square section with S1 type of transverse reinforcement with or without external FRP wrapping
-
-#                                          - ``'S2'`` square section with S2 type of transverse reinforcement with or without external FRP wrapping
-
-#                                          - ``'S3'`` square section with S3 type of transverse reinforcement with or without external FRP wrapping
-
-#                                          - ``'S4a'`` square section with S4a type of transverse reinforcement with or without external FRP wrapping
-
-#                                          - ``'S4b'`` square section with S4b type of transverse reinforcement with or without external FRP wrapping
-
-#                                          - ``'S5'`` square section with S5 type of transverse reinforcement with or without external FRP wrapping
-
-#                                          - ``'C'`` circular section with or without external FRP wrapping
-
-#                                          - ``'R'`` rectangular section with or without external FRP wrapping.
-
-
-
-#    ``fpc`` |float|                       unconfined cylindrical strength of concrete specimen.
-
-#    ``Ec`` |float|                        initial elastic modulus of unconfined concrete.
-
-#    ``epscu_type`` |str|                  Method to define confined concrete ultimate strain
-
-#                                          - ``-epscu`` then value is confined concrete ultimate strain,
-
-#                                          - ``-gamma`` then value is the ratio of the strength corresponding to ultimate
-
-#                                          strain to the peak strength of the confined concrete
-
-#                                          stress-strain curve. If ``gamma`` cannot be achieved
-
-#                                          in the range [0, epscuLimit] then epscuLimit
-
-#                                          (optional, default: 0.05) will be assumed as
-
-#                                          ultimate strain.
-
-#    ``epscu_val`` |float|                 Value for the definition of the concrete ultimate strain
-
-#    ``nu`` |str| or |list|                Definition for Poisson's Ratio.
-
-#                                          - ``['-nu', <value of Poisson's ratio>]``
-
-#                                          - ``'-varub'`` Poisson's ratio is defined as a function of axial
-
-#                                          strain by means of the expression proposed by Braga et al. (2006) with the
-
-#                                          upper bound equal to 0.5
-
-#                                          -``'-varnoub'`` Poisson's ratio is defined as a function of axial
-
-#                                          strain by means of the expression proposed by Braga
-
-#                                          et al. (2006) without any upper bound.
-
-#    ``L1`` |float|                        length/diameter of square/circular core section
-
-#                                          measured respect to the hoop center line.
-
-#    ``L2`` |float|                        additional dimensions when multiple hoops are being used.
-
-#    ``L3`` |float|                        additional dimensions when multiple hoops are being used.
-
-#    ``phis`` |float|                      hoop diameter. If section arrangement has multiple
-
-#                                          hoops it refers to the external hoop.
-
-#    ``S`` |float|                         hoop spacing.
-
-#    ``fyh`` |float|                       yielding strength of the hoop steel.
-
-#    ``Es0`` |float|                       elastic modulus of the hoop steel.
-
-#    ``haRatio`` |float|                   hardening ratio of the hoop steel.
-
-#    ``mu`` |float|                        ductility factor of the hoop steel.
-
-#    ``phiLon`` |float|                    diameter of longitudinal bars.
-
-#    ``internalArgs`` |listf|              ``internalArgs= [phisi, Si, fyhi, Es0i, haRatioi, mui]``
-
-#                                          optional parameters for defining the internal
-
-#                                          transverse reinforcement. If they are not specified
-
-#                                          they will be assumed equal to the external ones
-
-#                                          (for ``S2``, ``S3``, ``S4a``, ``S4b`` and ``S5`` typed).
-
-#    ``wrapArgs`` |listf|                  ``wrapArgs=[cover, Am, Sw, ful, Es0w]``
-
-#                                          optional parameters required when section is
-
-#                                          strengthened with FRP wraps.
-
-
-
-
-
-#                                          - ``cover`` cover thickness measured from the outer line of hoop.
-
-#                                          - ``Am`` total area of FRP wraps (number of layers x wrap thickness x wrap width).
-
-#                                          - ``Sw`` spacing of FRP wraps (if continuous wraps are used the spacing is equal to the wrap width).
-
-#                                          - ``ful`` ultimate strength of FRP wraps.
-
-#                                          - ``Es0w`` elastic modulus of FRP wraps.
-
-#    ``'-gravel'`` |str|                   Unknown
-
-#    ``'-silica'`` |str|                   Unknown
-
-#    ``tol``       |float|                 Unknown
-
-#    ``maxNumIter`` |int|                  Unknown
-
-#    ``epscuLimit`` |float|                Unknown
-
-#    ``stRatio``                           Unknown
-
-#    ===================================   ===========================================================================
-
-
-
-# .. image:: /_static/545px-SectionTypes.png
-
-
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/ConfinedConcrete01_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     if internalArgs:
-#         uniqueArgs.append('-internal')
-#         uniqueArgs.append(internalArgs)
-#     if wrapArgs:
-#         uniqueArgs.append('-wrap')
-#         uniqueArgs.append(wrapArgs)
-#     if '-silica':
-#         uniqueArgs.append('-gravel')
-#     if '-tol':
-#         uniqueArgs.append('-silica')
-#     if tol:
-#         uniqueArgs.append('-tol')
-#         uniqueArgs.append(tol)
-#     if maxNumIter:
-#         uniqueArgs.append('-maxNumIter')
-#         uniqueArgs.append(maxNumIter)
-#     if epscuLimit:
-#         uniqueArgs.append('-epscuLimit')
-#         uniqueArgs.append(epscuLimit)
-#     if stRatio:
-#         uniqueArgs.append('-stRatio')
-#         uniqueArgs.append(stRatio)
-#     ops.uniaxialMaterial('ConfinedConcrete01', matTag, secType, fpc, Ec, epscu_type, epscu_val, nu, L1, L2, L3, phis, S, fyh, Es0, haRatio, mu, phiLon, *uniqueArgs)
-
-# def ConcreteD(matTag, fc, epsc, ft, epst, Ec, alphac, alphat, cesp, etap):
-#     """
-
-
-#    This command is used to construct a concrete material based on the Chinese design code.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``fc`` |float|                        concrete compressive strength
-
-#    ``epsc`` |float|                      concrete strain at corresponding to compressive strength
-
-#    ``ft`` |float|                        concrete tensile strength
-
-#    ``epst`` |float|                      concrete strain at corresponding to tensile strength
-
-#    ``Ec`` |float|                        concrete initial Elastic modulus
-
-#    ``alphac`` |float|                    compressive descending parameter
-
-#    ``alphat`` |float|                    tensile descending parameter
-
-#    ``cesp`` |float|                      plastic parameter, recommended values: 0.2~0.3
-
-#    ``etap`` |float|                      plastic parameter, recommended values: 1.0~1.3
-
-#    ===================================   ===========================================================================
-
-
-
-# .. note::
-
-
-
-#    #. Concrete compressive strength and the corresponding strain should be input as negative values.
-
-#    #. The value ``fc/epsc`` and ``ft/epst`` should be smaller than ``Ec``.
-
-
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/ConcreteD>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ConcreteD', matTag, fc, epsc, ft, epst, Ec, alphac, alphat, cesp, etap, *uniqueArgs)
-
-# def FRPConfinedConcrete(matTag, fpc1, fpc2, epsc0, D, c, Ej, Sj, tj, eju, S, fyl, fyh, dlong, dtrans, Es, nu0, k, useBuck):
-#     """
-
-
-#    This command is used to construct a uniaxial Megalooikonomou-Monti-Santini concrete material object with degraded linear unloading/reloading stiffness according to the work of Karsan-Jirsa and no tensile strength.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``fpc1`` |float|                      concrete core compressive strength.
-
-#    ``fpc2`` |float|                      concrete cover compressive strength.
-
-#    ``epsc0`` |float|                     strain corresponding to unconfined concrete strength.
-
-#    ``D`` |float|                         diameter of the circular section.
-
-#    ``c`` |float|                         dimension of concrete cover (until the outer edge of steel stirrups)
-
-#    ``Ej`` |float|                        elastic modulus of the fiber reinforced polymer (FRP) jacket.
-
-#    ``Sj`` |float|                        clear spacing of the FRP strips - zero if FRP jacket is continuous.
-
-#    ``tj`` |float|                        total thickness of the FRP jacket.
-
-#    ``eju`` |float|                       rupture strain of the FRP jacket from tensile coupons.
-
-#    ``S`` |float|                         spacing of the steel spiral/stirrups.
-
-#    ``fyl`` |float|                             yielding strength of longitudinal steel bars.
-
-#    ``fyh`` |float|                       yielding strength of the steel spiral/stirrups.
-
-#    ``dlong`` |float|                     diameter of the longitudinal bars of the circular section.
-
-#    ``dtrans`` |float|                    diameter of the steel spiral/stirrups.
-
-#    ``Es`` |float|                        elastic modulus of steel.
-
-#    ``nu0`` |float|                       initial Poisson's coefficient for concrete.
-
-#    ``k`` |float|                         reduction factor for the rupture strain of the FRP
-
-#                                          jacket, recommended values 0.5-0.8.
-
-#    ``useBuck`` |float|                   FRP jacket failure criterion due to buckling of longitudinal compressive steel bars (0 = not                                            include it, 1= to include it).
-
-#    ===================================   ===========================================================================
-
-
-
-# .. note::
-
-#    #.IMPORTANT: The units of the input parameters should be in MPa, N, mm.
-
-#    #.Concrete compressive strengths and the corresponding strain should be input as positive values.
-
-#    #.When rupture of FRP jacket occurs due to dilation of concrete (lateral concrete strain exceeding reduced rupture strain of FRP          jacket), the analysis is not terminated. Only a message "FRP Rupture" is plotted on the screen.
-
-#    #.When $useBuck input parameter is on (equal to 1) and the model's longitudinal steel buckling conditions are fulfilled, a message        "Initiation of Buckling of Long.Bar under Compression" is plotted on the screen.
-
-#    #.When rupture of FRP jacket occurs due to its interaction with buckled longitudinal compressive steel bars, the analysis is not          terminated. Only a message "FRP Rupture due to Buckling of Long.Bar under compression" is plotted on the screen.
-
-
-
-# .. seealso::
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/FRPConfinedConcrete>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('FRPConfinedConcrete', matTag, fpc1, fpc2, epsc0, D, c, Ej, Sj, tj, eju, S, fyl, fyh, dlong, dtrans, Es, nu0, k, useBuck, *uniqueArgs)
+    """
+    ops.uniaxialMaterial('FRPConfinedConcrete', matTag, fpc1, fpc2, epsc0, D, c, Ej, Sj, tj, eju, S, fyl, fyh, dlong, dtrans, Es, nu0, k, useBuck)
 
 # def FRPConfinedConcrete02(matTag, fc0, Ec, ec0, tfrp=None, Efrp=None, erup=None, R=None, fcu=None, ecu=None, ft, Ets, Unit):
 #     """
@@ -1758,468 +1634,365 @@ def SteelMPF(matTag, fyp, fyn, E0, bp, bn, params, a1, a2, a3, a4):
 #     uniqueArgs = []
 #     ops.uniaxialMaterial('TDConcreteMC10NL', matTag, fc, fcu, epscu, fct, Ec, Ecm, beta, tD, epsba, epsbb, epsda, epsdb, phiba, phibb, phida, phidb, tcast, cem, *uniqueArgs)
 
-# def Elastic(matTag, E, eta, Eneg):
-#     """
+def Elastic(matTag, E, eta=None, Eneg=None):
+    """
 
+    This command is used to construct an elastic uniaxial material object.
 
-#    This command is used to construct an elastic uniaxial material object.
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``E`` |float|                         tangent
 
+    ``eta`` |float|                       damping tangent (optional, default=0.0)
 
-#    ===================================   ===========================================================================
+    ``Eneg`` |float|                      tangent in compression (optional, default=E)
+    ===================================   ===========================================================================
 
-#    ``matTag`` |int|                      integer tag identifying material
+    .. seealso::
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic_Uniaxial_Material>`_
 
-#    ``E`` |float|                         tangent
+    Hints:
+        untested
 
-#    ``eta`` |float|                       damping tangent (optional, default=0.0)
+    """
+    uniqueArgs = []
+    if eta:
+        uniqueArgs.append(eta)
+    if Eneg:
+        uniqueArgs.append(Eneg)    
+    ops.uniaxialMaterial('Elastic', matTag, E, *uniqueArgs)
 
-#    ``Eneg`` |float|                      tangent in compression (optional, default=E)
+def ElasticPP(matTag, E, epsyP, epsyN, eps0):
+    """
 
-#    ===================================   ===========================================================================
 
+    This command is used to construct an elastic perfectly-plastic uniaxial material object.
 
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
-# .. seealso::
+    ``E`` |float|                         tangent
 
+    ``epsyP`` |float|                     strain or deformation at which material reaches plastic state in tension
 
+    ``epsyN`` |float|                     strain or deformation at which material
+                                          reaches plastic state in compression.
+                                          (optional, default is tension value)
 
+    ``eps0`` |float|                      initial strain (optional, default: zero)
+    ===================================   ===========================================================================
 
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic_Uniaxial_Material>`_
+    .. seealso::
+    
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/ElasticPP.html>`_
+        
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic-Perfectly_Plastic_Material>`_
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Elastic', matTag, E, eta, Eneg, *uniqueArgs)
+    Hints:
+        untested
 
-# def ElasticPP(matTag, E, epsyP, epsyN, eps0):
-#     """
+    """
+    uniqueArgs = []
+    if epsyN:
+        uniqueArgs.append(epsyN)
+    if eps0:
+        uniqueArgs.append(eps0)    
+    ops.uniaxialMaterial('ElasticPP', matTag, E, epsyP, *uniqueArgs)
 
+def ElasticPPGap(matTag, E, Fy, gap, eta, damage):
+    """
 
-#    This command is used to construct an elastic perfectly-plastic uniaxial material object.
+    This command is used to construct an elastic perfectly-plastic gap uniaxial material object.
 
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ===================================   ===========================================================================
+    ``E`` |float|                         tangent
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``Fy`` |float|                        stress or force at which material reaches plastic state
 
-#    ``E`` |float|                         tangent
+    ``gap`` |float|                       initial gap (strain or deformation)
 
-#    ``epsyP`` |float|                     strain or deformation at which material reaches plastic state in tension
+    ``eta`` |float|                       hardening ratio (=Eh/E), which can be negative
 
-#    ``epsyN`` |float|                     strain or deformation at which material
+    ``damage`` |str|                      an optional string to specify whether to accumulate
+                                          damage or not in the material. With the default
+                                          string, ``'noDamage'`` the gap material will
+                                          re-center on load reversal.
+                                          If the string ``'damage'``
+                                          is provided this recentering will not occur and gap
+                                          will grow.
 
-#                                          reaches plastic state in compression.
+    ===================================   ===========================================================================
 
-#                                          (optional, default is tension value)
+    .. seealso::
 
-#    ``eps0`` |float|                      initial strain (optional, default: zero)
 
-#    ===================================   ===========================================================================
+    `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/ElasticPPGap.html>`_
+    
+    `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic-Perfectly_Plastic_Gap_Material>`_
 
+    Hints:
+        untested
 
+    """
+    ops.uniaxialMaterial('ElasticPPGap', matTag, E, Fy, gap, eta, damage)
 
-# .. seealso::
+def ENT(matTag, E):
+    """
+    This command is used to construct a uniaxial elastic-no tension material object.
 
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``E`` |float|                         tangent
 
+    ===================================   ===========================================================================
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic-Perfectly_Plastic_Material>`_
+    .. seealso::
+    
+        `Notes <https://openseespydoc.readthedocs.io/en/latest/src/ENT.html>`_
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ElasticPP', matTag, E, epsyP, epsyN, eps0, *uniqueArgs)
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic-No_Tension_Material>`_
 
-# def ElasticPPGap(matTag, E, Fy, gap, eta, damage):
-#     """
+    Hints:
+        untested
 
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('ENT', matTag, E, *uniqueArgs)
 
-#    This command is used to construct an elastic perfectly-plastic gap uniaxial material object.
+def Parallel(matTag, MatTags, factorArgs=None):
+    """
+    This command is used to construct a parallel material object made up of an arbitrary number of previously-constructed UniaxialMaterial objects.
 
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ===================================   ===========================================================================
+    ``MatTags`` |listi|                   identification tags of materials making up the material model
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``factorArgs`` |listf|                factors to create a linear combination of the
+                                          specified materials. Factors can be negative to
+                                          subtract one material from an other. (optional, default = 1.0)
 
-#    ``E`` |float|                         tangent
+    ===================================   ===========================================================================
 
-#    ``Fy`` |float|                        stress or force at which material reaches plastic state
+    .. seealso::
+    
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/ParallelUni.html>`_
+        
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Parallel_Material>`_
+    Hints:
+        untested
 
-#    ``gap`` |float|                       initial gap (strain or deformation)
+    """
+    uniqueArgs = []
+    if factorArgs:
+        uniqueArgs.append('-factors')
+        uniqueArgs.append(factorArgs)
+    ops.uniaxialMaterial('Parallel', matTag, *MatTags, *uniqueArgs)
 
-#    ``eta`` |float|                       hardening ratio (=Eh/E), which can be negative
+def Series(matTag, matTags):
+    """
 
-#    ``damage`` |str|                      an optional string to specify whether to accumulate
+    This command is used to construct a series material object made up of an 
+    arbitrary number of previously-constructed UniaxialMaterial objects.
 
-#                                          damage or not in the material. With the default
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
-#                                          string, ``'noDamage'`` the gap material will
+    ``matTags`` |listi|                   identification tags of materials making up the material model
+    ===================================   ===========================================================================
 
-#                                          re-center on load reversal.
+    .. seealso::
+    
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/SeriesUni.html>`_
+        
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Series_Material>`_
 
-#                                          If the string ``'damage'``
+    Hints:
+        untested
 
-#                                          is provided this recentering will not occur and gap
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('Series', matTag, *matTags, *uniqueArgs)
 
-#                                          will grow.
+def PySimple1(matTag, soilType, pult, Y50, Cd, c=0.0):
+    """
+    This command is used to construct a PySimple1 uniaxial material object.
 
-#    ===================================   ===========================================================================
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``soilType`` |int|                    soilType = 1 Backbone of p-y curve approximates Matlock (1970) soft clay relation.
 
+                                          soilType = 2 Backbone of p-y curve approximates API (1993) sand relation.
 
-# .. seealso::
+    ``pult`` |float|                      Ultimate capacity of the p-y material. Note that "p" or "pult" are distributed loads [force per length of pile] in common design equations, but are both loads for this uniaxialMaterial [i.e., distributed load times the tributary length of the pile].
 
+    ``Y50`` |float|                       Displacement at which 50% of pult is mobilized in monotonic loading.
 
+    ``Cd`` |float|                        Variable that sets the drag resistance within a fully-mobilized gap as Cd*pult.
 
+    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). Nonzero c values are used to represent radiation damping effects
 
+    ===================================   ===========================================================================
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic-Perfectly_Plastic_Gap_Material>`_
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ElasticPPGap', matTag, E, Fy, gap, eta, damage, *uniqueArgs)
+    .. seealso::
+    
+        
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/PySimple1.html>`_
+        
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/PySimple1_Material>`_
 
-# def ENT(matTag, E):
-#     """
+    Hints:
+        untested
 
+    """
+    ops.uniaxialMaterial('PySimple1', matTag, soilType, pult, Y50, Cd, c)
 
-#    This command is used to construct a uniaxial elastic-no tension material object.
+def TzSimple1(matTag, soilType, tult, z50, c=0.0):
+    """
 
+    This command is used to construct a TzSimple1 uniaxial material object.
 
+    ===================================   ===========================================================================
 
-#    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``soilType`` |int|                    soilType = 1 Backbone of t-z curve approximates Reese and O'Neill (1987).
+                                          soilType = 2 Backbone of t-z curve approximates Mosher (1984) relation.
 
-#    ``E`` |float|                         tangent
+    ``tult`` |float|                      Ultimate capacity of the t-z material. SEE NOTE 1.
 
-#    ===================================   ===========================================================================
+    ``z50`` |float|                       Displacement at which 50% of tult is mobilized in monotonic loading.
 
+    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). See NOTE 2.
 
+    ===================================   ===========================================================================
 
-# .. seealso::
+    .. note::
+    
+        #. The argument tult is the ultimate capacity of the t-z material. Note that "t" or "tult" are shear stresses [force per unit area of pile surface] in common design equations, but are both loads for this uniaxialMaterial [i.e., shear stress times the tributary area of the pile].
+    
+        #. Nonzero c values are used to represent radiation damping effects
+    
+    .. seealso::
+    
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/TzSimple1.html>`_
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/TzSimple1_Material>`_
 
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('TzSimple1', matTag, soilType, tult, z50, c, *uniqueArgs)
 
+def QzSimple1(matTag, qzType, qult, Z50, suction=0.0, c=0.0):
+    """
+    This command is used to construct a QzSimple1 uniaxial material object.
 
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Elastic-No_Tension_Material>`_
+    ``qzType`` |int|                      qzType = 1 Backbone of q-z curve approximates Reese and O'Neill's (1987) relation for drilled shafts in clay.
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ENT', matTag, E, *uniqueArgs)
 
-# def Parallel(matTag, MatTags, factorArgs=None):
-#     """
 
+                                          qzType = 2 Backbone of q-z curve approximates Vijayvergiya's (1977) relation for piles in sand.
 
-#    This command is used to construct a parallel material object made up of an arbitrary number of previously-constructed UniaxialMaterial objects.
+    ``qult`` |float|                      Ultimate capacity of the q-z material. SEE NOTE 1.
 
+    ``Z50`` |float|                       Displacement at which 50% of qult is mobilized in monotonic loading. SEE NOTE 2.
 
+    ``suction`` |float|                   Uplift resistance is equal to suction*qult. Default = 0.0. The value of suction must be 0.0 to 0.1.*
 
-#    ===================================   ===========================================================================
+    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). Default = 0.0. Nonzero c values are used to represent radiation damping effects.*
+    ===================================   ===========================================================================
 
-#    ``matTag`` |int|                      integer tag identifying material
 
-#    ``MatTags`` |listi|                   identification tags of materials making up the material model
+    .. note::
+    
+        #. ``qult``: Ultimate capacity of the q-z material. Note that ``q1`` or ``qult`` are stresses [force per unit area of pile tip] in common design equations, but are both loads for this uniaxialMaterial [i.e., stress times tip area].
+    
+        #. ``Y50``: Displacement at which 50% of pult is mobilized in monotonic loading. Note that Vijayvergiya's relation (qzType=2) refers to a "critical" displacement (zcrit) at which qult is fully mobilized, and that the corresponding z50 would be 0. 125zcrit.
+    
+        #. optional args    ``suction`` and    ``c`` must either both be omitted or both provided.
 
-#    ``factorArgs`` |listf|                factors to create a linear combination of the
 
-#                                          specified materials. Factors can be negative to
+    .. seealso::
+    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/QzSimple1_Material>`_
 
-#                                          subtract one material from an other. (optional, default = 1.0)
+    Hints:
+        untested
 
-#    ===================================   ===========================================================================
+    """
+    ops.uniaxialMaterial('QzSimple1', matTag, qzType, qult, Z50, suction, c)
 
+def PyLiq1(matTag, soilType, pult, Y50, Cd, c, pRes, ele1=None, ele2=None, timeSeriesTag=None):
 
+    """
+    This command constructs a uniaxial p-y material that incorporates 
+    liquefaction effects. This p y material is used with a zeroLength element 
+    to connect a pile (beam-column element) to a 2 D plane-strain FE mesh or 
+    displacement boundary condition. The p-y material obtains the average mean 
+    effective stress (which decreases with increasing excess pore pressure) 
+    either from two specified soil elements, or from a time series. Currently, 
+    the implementation requires that the specified soil elements consist of 
+    FluidSolidPorousMaterials in FourNodeQuad elements, or 
+    PressureDependMultiYield or PressureDependMultiYield02 materials in 
+    FourNodeQuadUP or NineFourQuadUP elements. There are two possible forms:
 
-# .. seealso::
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``soilType`` |int|                    soilType = 1 Backbone of p-y curve approximates Matlock (1970) soft clay relation.
 
+                                          soilType = 2 Backbone of p-y curve approximates API (1993) sand relation.
 
+    ``pult`` |float|                      Ultimate capacity of the p-y material. Note that "p" or "pult" are distributed loads [force per length of pile] in common design equations, but are both loads for this uniaxialMaterial [i.e., distributed load times the tributary length of the pile].
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Parallel_Material>`_
+    ``Y50`` |float|                       Displacement at which 50% of pult is mobilized in monotonic loading.
 
-#     """
-#     uniqueArgs = []
-#     if factorArgs:
-#         uniqueArgs.append('-factors')
-#         uniqueArgs.append(factorArgs)
-#     ops.uniaxialMaterial('Parallel', matTag, *MatTags, *uniqueArgs)
+    ``Cd`` |float|                        Variable that sets the drag resistance within a fully-mobilized gap as Cd*pult.
 
-# def Series(matTag, matTags):
-#     """
+    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). Nonzero c values are used to represent radiation damping effects
 
+    ``pRes`` |float|                      sets the minimum (or residual) peak resistance that the material retains as the adjacent solid soil elements liquefy
 
-#    This command is used to construct a series material object made up of an arbitrary number of previously-constructed UniaxialMaterial objects.
+    ``ele1``    ``ele2`` |float|          are the eleTag (element numbers) for the two solid elements from which PyLiq1 will obtain mean effective stresses and excess pore pressures. If the elements are specified, timeseries can not be specified.
 
+    ``timeSeriesTag`` |float|             Alternatively, mean effective stress can be supplied by a time series by specifying the text string ``'-timeSeries'`` and the tag of the series    ``seriesTag``. If the timeseries are specified, elements can not be specified.
 
+    ===================================   ===========================================================================
 
-#    ===================================   ===========================================================================
+    .. seealso::
+        
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/PyLiq1_Material>`_
+        
+    Hints:
+        untested
 
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``matTags`` |listi|                   identification tags of materials making up the material model
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Series_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Series', matTag, *matTags, *uniqueArgs)
-
-# def PySimple1(matTag, soilType, pult, Y50, Cd, c):
-#     """
-
-
-#    This command is used to construct a PySimple1 uniaxial material object.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``soilType`` |int|                    soilType = 1 Backbone of p-y curve approximates Matlock (1970) soft clay relation.
-
-
-
-#                                          soilType = 2 Backbone of p-y curve approximates API (1993) sand relation.
-
-#    ``pult`` |float|                      Ultimate capacity of the p-y material. Note that "p" or "pult" are distributed loads [force per length of pile] in common design equations, but are both loads for this uniaxialMaterial [i.e., distributed load times the tributary length of the pile].
-
-#    ``Y50`` |float|                       Displacement at which 50% of pult is mobilized in monotonic loading.
-
-#    ``Cd`` |float|                        Variable that sets the drag resistance within a fully-mobilized gap as Cd*pult.
-
-#    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). Nonzero c values are used to represent radiation damping effects
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/PySimple1_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('PySimple1', matTag, soilType, pult, Y50, Cd, c, *uniqueArgs)
-
-# def TzSimple1(matTag, soilType, tult, z50, c):
-#     """
-
-
-#    This command is used to construct a TzSimple1 uniaxial material object.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``soilType`` |int|                    soilType = 1 Backbone of t-z curve approximates Reese and O'Neill (1987).
-
-
-
-#                                          soilType = 2 Backbone of t-z curve approximates Mosher (1984) relation.
-
-#    ``tult`` |float|                      Ultimate capacity of the t-z material. SEE NOTE 1.
-
-#    ``z50`` |float|                       Displacement at which 50% of tult is mobilized in monotonic loading.
-
-#    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). See NOTE 2.
-
-#    ===================================   ===========================================================================
-
-
-
-# .. note::
-
-#    #. The argument tult is the ultimate capacity of the t-z material. Note that "t" or "tult" are shear stresses [force per unit area of pile surface] in common design equations, but are both loads for this uniaxialMaterial [i.e., shear stress times the tributary area of the pile].
-
-
-
-#    #. Nonzero c values are used to represent radiation damping effects
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/TzSimple1_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('TzSimple1', matTag, soilType, tult, z50, c, *uniqueArgs)
-
-# def QzSimple1(matTag, qzType, qult, Z50, suction, c):
-#     """
-
-
-#    This command is used to construct a QzSimple1 uniaxial material object.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``qzType`` |int|                      qzType = 1 Backbone of q-z curve approximates Reese and O'Neill's (1987) relation for drilled shafts in clay.
-
-
-
-#                                          qzType = 2 Backbone of q-z curve approximates Vijayvergiya's (1977) relation for piles in sand.
-
-#    ``qult`` |float|                      Ultimate capacity of the q-z material. SEE NOTE 1.
-
-#    ``Z50`` |float|                       Displacement at which 50% of qult is mobilized in monotonic loading. SEE NOTE 2.
-
-#    ``suction`` |float|                   Uplift resistance is equal to suction*qult. Default = 0.0. The value of suction must be 0.0 to 0.1.*
-
-#    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). Default = 0.0. Nonzero c values are used to represent radiation damping effects.*
-
-#    ===================================   ===========================================================================
-
-
-
-# .. note::
-
-
-
-#    #. ``qult``: Ultimate capacity of the q-z material. Note that ``q1`` or ``qult`` are stresses [force per unit area of pile tip] in common design equations, but are both loads for this uniaxialMaterial [i.e., stress times tip area].
-
-#    #. ``Y50``: Displacement at which 50% of pult is mobilized in monotonic loading. Note that Vijayvergiya's relation (qzType=2) refers to a "critical" displacement (zcrit) at which qult is fully mobilized, and that the corresponding z50 would be 0. 125zcrit.
-
-#    #. optional args    ``suction`` and    ``c`` must either both be omitted or both provided.
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/QzSimple1_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('QzSimple1', matTag, qzType, qult, Z50, suction, c, *uniqueArgs)
-
-# def PyLiq1(matTag, soilType, pult, Y50, Cd, c, pRes, timeSeriesTag=None):
-
-
-#    This command constructs a uniaxial p-y material that incorporates liquefaction effects. This p y material is used with a zeroLength element to connect a pile (beam-column element) to a 2 D plane-strain FE mesh or displacement boundary condition. The p-y material obtains the average mean effective stress (which decreases with increasing excess pore pressure) either from two specified soil elements, or from a time series. Currently, the implementation requires that the specified soil elements consist of FluidSolidPorousMaterials in FourNodeQuad elements, or PressureDependMultiYield or PressureDependMultiYield02 materials in FourNodeQuadUP or NineFourQuadUP elements. There are two possible forms:
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``soilType`` |int|                    soilType = 1 Backbone of p-y curve approximates Matlock (1970) soft clay relation.
-
-#                                          soilType = 2 Backbone of p-y curve approximates API (1993) sand relation.
-
-#    ``pult`` |float|                      Ultimate capacity of the p-y material. Note that "p" or "pult" are distributed loads [force per length of pile] in common design equations, but are both loads for this uniaxialMaterial [i.e., distributed load times the tributary length of the pile].
-
-#    ``Y50`` |float|                       Displacement at which 50% of pult is mobilized in monotonic loading.
-
-#    ``Cd`` |float|                        Variable that sets the drag resistance within a fully-mobilized gap as Cd*pult.
-
-#    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). Nonzero c values are used to represent radiation damping effects
-
-#    ``pRes`` |float|                      sets the minimum (or residual) peak resistance that the material retains as the adjacent solid soil elements liquefy
-
-#    ``ele1``    ``ele2`` |float|          are the eleTag (element numbers) for the two solid elements from which PyLiq1 will obtain mean effective stresses and excess pore pressures
-
-#    ``timeSeriesTag`` |float|                 Alternatively, mean effective stress can be supplied by a time series by specifying the text string ``'-timeSeries'`` and the tag of the series    ``seriesTag``.
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/PyLiq1_Material>`_
-
-#     uniqueArgs = []
-#     if timeSeriesTag:
-#         uniqueArgs.append('-timeSeries')
-#         uniqueArgs.append(timeSeriesTag)
-#     ops.uniaxialMaterial('PyLiq1', matTag, soilType, pult, Y50, Cd, c, pRes, *uniqueArgs)
-
-# def PyLiq1(matTag, soilType, pult, Y50, Cd, c, pRes, timeSeriesTag=None):
-
-
-#    This command constructs a uniaxial p-y material that incorporates liquefaction effects. This p y material is used with a zeroLength element to connect a pile (beam-column element) to a 2 D plane-strain FE mesh or displacement boundary condition. The p-y material obtains the average mean effective stress (which decreases with increasing excess pore pressure) either from two specified soil elements, or from a time series. Currently, the implementation requires that the specified soil elements consist of FluidSolidPorousMaterials in FourNodeQuad elements, or PressureDependMultiYield or PressureDependMultiYield02 materials in FourNodeQuadUP or NineFourQuadUP elements. There are two possible forms:
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``soilType`` |int|                    soilType = 1 Backbone of p-y curve approximates Matlock (1970) soft clay relation.
-
-#                                          soilType = 2 Backbone of p-y curve approximates API (1993) sand relation.
-
-#    ``pult`` |float|                      Ultimate capacity of the p-y material. Note that "p" or "pult" are distributed loads [force per length of pile] in common design equations, but are both loads for this uniaxialMaterial [i.e., distributed load times the tributary length of the pile].
-
-#    ``Y50`` |float|                       Displacement at which 50% of pult is mobilized in monotonic loading.
-
-#    ``Cd`` |float|                        Variable that sets the drag resistance within a fully-mobilized gap as Cd*pult.
-
-#    ``c`` |float|                         The viscous damping term (dashpot) on the far-field (elastic) component of the displacement rate (velocity). (optional Default = 0.0). Nonzero c values are used to represent radiation damping effects
-
-#    ``pRes`` |float|                      sets the minimum (or residual) peak resistance that the material retains as the adjacent solid soil elements liquefy
-
-#    ``ele1``    ``ele2`` |float|          are the eleTag (element numbers) for the two solid elements from which PyLiq1 will obtain mean effective stresses and excess pore pressures
-
-#    ``timeSeriesTag`` |float|                 Alternatively, mean effective stress can be supplied by a time series by specifying the text string ``'-timeSeries'`` and the tag of the series    ``seriesTag``.
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/PyLiq1_Material>`_
-
-#     uniqueArgs = []
-#     if timeSeriesTag:
-#         uniqueArgs.append('-timeSeries')
-#         uniqueArgs.append(timeSeriesTag)
-#     ops.uniaxialMaterial('PyLiq1', matTag, soilType, pult, Y50, Cd, c, pRes, *uniqueArgs)
+    """
+    
+    uniqueArgs = []
+    if timeSeriesTag:
+        uniqueArgs.append(ele1)    
+        uniqueArgs.append(ele2)    
+    if timeSeriesTag:
+        uniqueArgs.append('-timeSeries')
+        uniqueArgs.append(timeSeriesTag)
+    ops.uniaxialMaterial('PyLiq1', matTag, soilType, pult, Y50, Cd, c, pRes, *uniqueArgs)
 
 # def TzLiq1(matTag, tzType, tult, z50, c, timeSeriesTag=None):
 
@@ -2605,321 +2378,302 @@ def SteelMPF(matTag, fyp, fyn, E0, bp, bn, params, a1, a2, a3, a4):
 #     uniqueArgs = []
 #     ops.uniaxialMaterial('BilinearOilDamper', matTag, K_el, Cd, Fr, p, LGap, NM, RelTol, AbsTol, MaxHalf, *uniqueArgs)
 
-# def Bilin(matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg, nFactor):
-#     """
+def Bilin(matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, Lamda_C, 
+          Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, 
+          theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, 
+          theta_u_Neg, D_Plus, D_Neg, nFactor):
+    """
 
+    This command is used to construct a bilin material. The bilin material 
+    simulates the modified Ibarra-Krawinkler deterioration model with bilinear 
+    hysteretic response. Note that the hysteretic response of this material has 
+    been calibrated with respect to more than 350 experimental data of steel 
+    beam-to-column connections and multivariate regression formulas are 
+    provided to estimate the deterioration parameters of the model for 
+    different connection types. These relationships were developed by 
+    Lignos and Krawinkler (2009, 2011) and have been adopted by PEER/ATC (2010). 
+    The input parameters for this component model can be computed interactively 
+    from this `link <http://dimitrios-lignos.research.mcgill.ca/databases/>`_. 
+    **Use the module Component Model.**
 
-#    This command is used to construct a bilin material. The bilin material simulates the modified Ibarra-Krawinkler deterioration model with bilinear hysteretic response. Note that the hysteretic response of this material has been calibrated with respect to more than 350 experimental data of steel beam-to-column connections and multivariate regression formulas are provided to estimate the deterioration parameters of the model for different connection types. These relationships were developed by Lignos and Krawinkler (2009, 2011) and have been adopted by PEER/ATC (2010). The input parameters for this component model can be computed interactively from this `link <http://dimitrios-lignos.research.mcgill.ca/databases/>`_. **Use the module Component Model.**
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``K0`` |float|                        elastic stiffness
 
-#    ===================================   ===========================================================================
+    ``as_Plus`` |float|                   strain hardening ratio for positive loading direction
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``as_Neg`` |float|                    strain hardening ratio for negative loading direction
 
-#    ``K0`` |float|                        elastic stiffness
+    ``My_Plus`` |float|                   effective yield strength for positive loading direction
 
-#    ``as_Plus`` |float|                   strain hardening ratio for positive loading direction
+    ``My_Neg`` |float|                    effective yield strength for negative loading direction (negative value)
 
-#    ``as_Neg`` |float|                    strain hardening ratio for negative loading direction
+    ``Lamda_S`` |float|                   Cyclic deterioration parameter for strength
+                                          deterioration [E_t=Lamda_S*M_y; set Lamda_S = 0 to
+                                          disable this mode of deterioration]
 
-#    ``My_Plus`` |float|                   effective yield strength for positive loading direction
+    ``Lamda_C`` |float|                   Cyclic deterioration parameter for post-capping
+                                          strength deterioration [E_t=Lamda_C*M_y;
+                                          set Lamda_C = 0 to disable this mode of deterioration]
 
-#    ``My_Neg`` |float|                    effective yield strength for negative loading direction (negative value)
+    ``Lamda_A`` |float|                   Cyclic deterioration parameter for acceleration
+                                          reloading stiffness deterioration (is not a
+                                          deterioration mode for a component with Bilinear
+                                          hysteretic response) [Input value is required,
+                                          but not used; set Lamda_A = 0].
 
-#    ``Lamda_S`` |float|                   Cyclic deterioration parameter for strength
+    ``Lamda_K`` |float|                   Cyclic deterioration parameter for unloading
+                                          stiffness deterioration [E_t=Lamda_K*M_y; set
+                                          Lamda_k = 0 to disable this mode of deterioration]
 
-#                                          deterioration [E_t=Lamda_S*M_y; set Lamda_S = 0 to
+    ``c_S`` |float|                       rate of strength deterioration. The default value is 1.0.
 
-#                                          disable this mode of deterioration]
+    ``c_C`` |float|                       rate of post-capping strength deterioration. The default value is 1.0.
 
-#    ``Lamda_C`` |float|                   Cyclic deterioration parameter for post-capping
+    ``c_A`` |float|                       rate of accelerated reloading deterioration. The default value is 1.0.
 
-#                                          strength deterioration [E_t=Lamda_C*M_y;
+    ``c_K`` |float|                       rate of unloading stiffness deterioration. The default value is 1.0.
 
-#                                          set Lamda_C = 0 to disable this mode of deterioration]
+    ``theta_p_Plus`` |float|              pre-capping rotation for positive loading direction
+                                          (often noted as plastic rotation capacity)
 
-#    ``Lamda_A`` |float|                   Cyclic deterioration parameter for acceleration
+    ``theta_p_Neg`` |float|               pre-capping rotation for negative loading direction
+                                          (often noted as plastic rotation capacity) (positive value)
 
-#                                          reloading stiffness deterioration (is not a
+    ``theta_pc_Plus`` |float|             post-capping rotation for positive loading direction
 
-#                                          deterioration mode for a component with Bilinear
+    ``theta_pc_Neg`` |float|              post-capping rotation for negative loading direction (positive value)
 
-#                                          hysteretic response) [Input value is required,
+    ``Res_Pos`` |float|                   residual strength ratio for positive loading direction
 
-#                                          but not used; set Lamda_A = 0].
+    ``Res_Neg`` |float|                   residual strength ratio for negative loading direction (positive value)
 
-#    ``Lamda_K`` |float|                   Cyclic deterioration parameter for unloading
+    ``theta_u_Plus`` |float|              ultimate rotation capacity for positive loading direction
 
-#                                          stiffness deterioration [E_t=Lamda_K*M_y; set
+    ``theta_u_Neg`` |float|               ultimate rotation capacity for negative loading direction (positive value)
 
-#                                          Lamda_k = 0 to disable this mode of deterioration]
+    ``D_Plus`` |float|                    rate of cyclic deterioration in the positive loading direction
+                                          (this parameter is used to create assymetric
+                                          hysteretic behavior for the case of a
+                                          composite beam). For symmetric hysteretic response use 1.0.
 
-#    ``c_S`` |float|                       rate of strength deterioration. The default value is 1.0.
+    ``D_Neg`` |float|                     rate of cyclic deterioration in the negative loading direction
+                                          (this parameter is used to create assymetric hysteretic behavior
+                                          for the case of a composite beam). For symmetric hysteretic response use 1.0.
 
-#    ``c_C`` |float|                       rate of post-capping strength deterioration. The default value is 1.0.
+    ``nFactor`` |float|                   elastic stiffness amplification factor, mainly for use
+                                          with concentrated plastic hinge elements (optional, default = 0).
+    ===================================   ===========================================================================
 
-#    ``c_A`` |float|                       rate of accelerated reloading deterioration. The default value is 1.0.
 
-#    ``c_K`` |float|                       rate of unloading stiffness deterioration. The default value is 1.0.
+    .. seealso::
+    
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/Bilin.html>`_
+    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Modified_Ibarra-Medina-Krawinkler_Deterioration_Model_with_Bilinear_Hysteretic_Response_(Bilin_Material)>`_
 
-#    ``theta_p_Plus`` |float|              pre-capping rotation for positive loading direction
 
-#                                          (often noted as plastic rotation capacity)
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('Bilin', matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, 
+                         Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, 
+                         theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, 
+                         Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, 
+                         D_Neg, nFactor)
 
-#    ``theta_p_Neg`` |float|               pre-capping rotation for negative loading direction
+def ModIMKPeakOriented(matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, 
+                       Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, 
+                       theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, 
+                       Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg):
+    """
 
-#                                          (often noted as plastic rotation capacity) (positive value)
+    This command is used to construct a ModIMKPeakOriented material. This material simulates the modified Ibarra-Medina-Krawinkler deterioration model with peak-oriented hysteretic response. Note that the hysteretic response of this material has been calibrated with respect to 200 experimental data of RC beams in order to estimate the deterioration parameters of the model. This information was developed by Lignos and Krawinkler (2012). NOTE: before you use this material make sure that you have downloaded the latest OpenSees version. A youtube video presents a summary of this model including the way to be used within openSees `youtube link <http://youtu.be/YHBHQ-xuybE>`_.
 
-#    ``theta_pc_Plus`` |float|             post-capping rotation for positive loading direction
+    ===================================   ===========================================================================
 
-#    ``theta_pc_Neg`` |float|              post-capping rotation for negative loading direction (positive value)
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ``Res_Pos`` |float|                   residual strength ratio for positive loading direction
+    ``K0`` |float|                        elastic stiffness
 
-#    ``Res_Neg`` |float|                   residual strength ratio for negative loading direction (positive value)
+    ``as_Plus`` |float|                   strain hardening ratio for positive loading direction
 
-#    ``theta_u_Plus`` |float|              ultimate rotation capacity for positive loading direction
+    ``as_Neg`` |float|                    strain hardening ratio for negative loading direction
 
-#    ``theta_u_Neg`` |float|               ultimate rotation capacity for negative loading direction (positive value)
+    ``My_Plus`` |float|                   effective yield strength for positive loading direction
 
-#    ``D_Plus`` |float|                    rate of cyclic deterioration in the positive loading direction
+    ``My_Neg`` |float|                    effective yield strength for negative loading direction (negative value)
 
-#                                          (this parameter is used to create assymetric
+    ``Lamda_S`` |float|                   Cyclic deterioration parameter for strength deterioration [E_t=Lamda_S*M_y, see Lignos and Krawinkler (2011); set Lamda_S = 0 to disable this mode of deterioration]
 
-#                                          hysteretic behavior for the case of a
+    ``Lamda_C`` |float|                   Cyclic deterioration parameter for post-capping strength deterioration [E_t=Lamda_C*M_y, see Lignos and Krawinkler (2011); set Lamda_C = 0 to disable this mode of deterioration]
 
-#                                          composite beam). For symmetric hysteretic response use 1.0.
+    ``Lamda_A`` |float|                   Cyclic deterioration parameter for accelerated reloading stiffness deterioration [E_t=Lamda_A*M_y, see Lignos and Krawinkler (2011); set Lamda_A = 0 to disable this mode of deterioration]
 
-#    ``D_Neg`` |float|                     rate of cyclic deterioration in the negative loading direction
+    ``Lamda_K`` |float|                   Cyclic deterioration parameter for unloading stiffness deterioration [E_t=Lamda_K*M_y, see Lignos and Krawinkler (2011); set Lamda_K = 0 to disable this mode of deterioration]
 
-#                                          (this parameter is used to create assymetric hysteretic behavior
+    ``c_S`` |float|                       rate of strength deterioration. The default value is 1.0.
 
-#                                          for the case of a composite beam). For symmetric hysteretic response use 1.0.
+    ``c_C`` |float|                       rate of post-capping strength deterioration. The default value is 1.0.
 
-#    ``nFactor`` |float|                   elastic stiffness amplification factor, mainly for use
+    ``c_A`` |float|                       rate of accelerated reloading deterioration. The default value is 1.0.
 
-#                                          with concentrated plastic hinge elements (optional, default = 0).
+    ``c_K`` |float|                       rate of unloading stiffness deterioration. The default value is 1.0.
 
-#    ===================================   ===========================================================================
+    ``theta_p_Plus`` |float|              pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
 
+    ``theta_p_Neg`` |float|               pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (must be defined as a positive value)
 
+    ``theta_pc_Plus`` |float|             post-capping rotation for positive loading direction
 
-# .. seealso::
+    ``theta_pc_Neg`` |float|              post-capping rotation for negative loading direction (must be defined as a positive value)
 
+    ``Res_Pos`` |float|                   residual strength ratio for positive loading direction
 
+    ``Res_Neg`` |float|                   residual strength ratio for negative loading direction (must be defined as a positive value)
 
+    ``theta_u_Plus`` |float|              ultimate rotation capacity for positive loading direction
 
+    ``theta_u_Neg`` |float|               ultimate rotation capacity for negative loading direction (must be defined as a positive value)
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Modified_Ibarra-Medina-Krawinkler_Deterioration_Model_with_Bilinear_Hysteretic_Response_(Bilin_Material)>`_
+    ``D_Plus`` |float|                    rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('Bilin', matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg, nFactor, *uniqueArgs)
+    ``D_Neg`` |float|                     rate  of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
 
-# def ModIMKPeakOriented(matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg):
-#     """
+    ===================================   ===========================================================================
 
 
-#    This command is used to construct a ModIMKPeakOriented material. This material simulates the modified Ibarra-Medina-Krawinkler deterioration model with peak-oriented hysteretic response. Note that the hysteretic response of this material has been calibrated with respect to 200 experimental data of RC beams in order to estimate the deterioration parameters of the model. This information was developed by Lignos and Krawinkler (2012). NOTE: before you use this material make sure that you have downloaded the latest OpenSees version. A youtube video presents a summary of this model including the way to be used within openSees `youtube link <http://youtu.be/YHBHQ-xuybE>`_.
+    .. seealso::
+    
+        `Notes <https://openseespydoc.readthedocs.io/en/latest/src/ModIMKPeakOriented.html>`_
 
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Modified_Ibarra-Medina-Krawinkler_Deterioration_Model_with_Peak-Oriented_Hysteretic_Response_(ModIMKPeakOriented_Material)>`_
 
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('ModIMKPeakOriented', matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg, *uniqueArgs)
 
-#    ===================================   ===========================================================================
+def ModIMKPinching(matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, FprPos, 
+                   FprNeg, A_pinch, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, 
+                   c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, 
+                   theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, 
+                   D_Plus, D_Neg):
+    """
 
-#    ``matTag`` |int|                      integer tag identifying material
+    This command is used to construct a ModIMKPinching material. This material simulates the modified Ibarra-Medina-Krawinkler deterioration model with pinching hysteretic response. NOTE: **before you use this material make sure that you have downloaded the latest OpenSees version**. A youtube video presents a summary of this model including the way to be used within openSees `youtube link <http://youtu.be/YHBHQ-xuybE>`_.
 
-#    ``K0`` |float|                        elastic stiffness
+    ===================================   ===========================================================================
 
-#    ``as_Plus`` |float|                   strain hardening ratio for positive loading direction
+    ``matTag`` |int|                      integer tag identifying material
 
-#    ``as_Neg`` |float|                    strain hardening ratio for negative loading direction
+    ``K0`` |float|                        elastic stiffness
 
-#    ``My_Plus`` |float|                   effective yield strength for positive loading direction
+    ``as_Plus`` |float|                   strain hardening ratio for positive loading direction
 
-#    ``My_Neg`` |float|                    effective yield strength for negative loading direction (negative value)
+    ``as_Neg`` |float|                    strain hardening ratio for negative loading direction
 
-#    ``Lamda_S`` |float|                   Cyclic deterioration parameter for strength deterioration [E_t=Lamda_S*M_y, see Lignos and Krawinkler (2011); set Lamda_S = 0 to disable this mode of deterioration]
+    ``My_Plus`` |float|                   effective yield strength for positive loading direction
 
-#    ``Lamda_C`` |float|                   Cyclic deterioration parameter for post-capping strength deterioration [E_t=Lamda_C*M_y, see Lignos and Krawinkler (2011); set Lamda_C = 0 to disable this mode of deterioration]
+    ``My_Neg`` |float|                    effective yield strength for negative loading direction (Must be defined as a negative value)
 
-#    ``Lamda_A`` |float|                   Cyclic deterioration parameter for accelerated reloading stiffness deterioration [E_t=Lamda_A*M_y, see Lignos and Krawinkler (2011); set Lamda_A = 0 to disable this mode of deterioration]
+    ``FprPos`` |float|                    Ratio of the force at which reloading begins to force corresponding to the maximum historic deformation demand (positive loading direction)
 
-#    ``Lamda_K`` |float|                   Cyclic deterioration parameter for unloading stiffness deterioration [E_t=Lamda_K*M_y, see Lignos and Krawinkler (2011); set Lamda_K = 0 to disable this mode of deterioration]
+    ``FprNeg`` |float|                    Ratio of the force at which reloading begins to force corresponding to the absolute maximum historic deformation demand (negative loading direction)
 
-#    ``c_S`` |float|                       rate of strength deterioration. The default value is 1.0.
+    ``A_pinch`` |float|                   Ratio of reloading stiffness
 
-#    ``c_C`` |float|                       rate of post-capping strength deterioration. The default value is 1.0.
+    ``Lamda_S`` |float|                   Cyclic deterioration parameter for strength deterioration [E_t=Lamda_S*M_y, see Lignos and Krawinkler (2011); set Lamda_S = 0 to disable this mode of deterioration]
 
-#    ``c_A`` |float|                       rate of accelerated reloading deterioration. The default value is 1.0.
+    ``Lamda_C`` |float|                   Cyclic deterioration parameter for post-capping strength deterioration [E_t=Lamda_C*M_y, see Lignos and Krawinkler (2011); set Lamda_C = 0 to disable this mode of deterioration]
 
-#    ``c_K`` |float|                       rate of unloading stiffness deterioration. The default value is 1.0.
+    ``Lamda_A`` |float|                   Cyclic deterioration parameter for accelerated reloading stiffness deterioration [E_t=Lamda_A*M_y, see Lignos and Krawinkler (2011); set Lamda_A = 0 to disable this mode of deterioration]
 
-#    ``theta_p_Plus`` |float|              pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
+    ``Lamda_K`` |float|                   Cyclic deterioration parameter for unloading stiffness deterioration [E_t=Lamda_K*M_y, see Lignos and Krawinkler (2011); set Lamda_K = 0 to disable this mode of deterioration]
 
-#    ``theta_p_Neg`` |float|               pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (must be defined as a positive value)
+    ``c_S`` |float|                       rate of strength deterioration. The default value is 1.0.
 
-#    ``theta_pc_Plus`` |float|             post-capping rotation for positive loading direction
+    ``c_C`` |float|                       rate of post-capping strength deterioration. The default value is 1.0.
 
-#    ``theta_pc_Neg`` |float|              post-capping rotation for negative loading direction (must be defined as a positive value)
+    ``c_A`` |float|                       rate of accelerated reloading deterioration. The default value is 1.0.
 
-#    ``Res_Pos`` |float|                   residual strength ratio for positive loading direction
+    ``c_K`` |float|                       rate of unloading stiffness deterioration. The default value is 1.0.
 
-#    ``Res_Neg`` |float|                   residual strength ratio for negative loading direction (must be defined as a positive value)
+    ``theta_p_Plus`` |float|              pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
 
-#    ``theta_u_Plus`` |float|              ultimate rotation capacity for positive loading direction
+    ``theta_p_Neg`` |float|               pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (must be defined as a positive value)
 
-#    ``theta_u_Neg`` |float|               ultimate rotation capacity for negative loading direction (must be defined as a positive value)
+    ``theta_pc_Plus`` |float|             post-capping rotation for positive loading direction
 
-#    ``D_Plus`` |float|                    rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
+    ``theta_pc_Neg`` |float|              post-capping rotation for negative loading direction (must be defined as a positive value)
 
-#    ``D_Neg`` |float|                     rate  of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
+    ``Res_Pos`` |float|                   residual strength ratio for positive loading direction
 
-#    ===================================   ===========================================================================
+    ``Res_Neg`` |float|                   residual strength ratio for negative loading direction (must be defined as a positive value)
 
+    ``theta_u_Plus`` |float|              ultimate rotation capacity for positive loading direction
 
+    ``theta_u_Neg`` |float|               ultimate rotation capacity for negative loading direction (must be defined as a positive value)
 
-# .. seealso::
+    ``D_Plus`` |float|                    rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
 
+    ``D_Neg`` |float|                     rate of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
 
+    ===================================   ===========================================================================
 
+    .. seealso::
+    
+        `Notes <https://openseespydoc.readthedocs.io/en/latest/src/ModIMKPinching.html`_
 
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/Modified_Ibarra-Medina-Krawinkler_Deterioration_Model_with_Pinched_Hysteretic_Response_(ModIMKPinching_Material)>`_
 
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Modified_Ibarra-Medina-Krawinkler_Deterioration_Model_with_Peak-Oriented_Hysteretic_Response_(ModIMKPeakOriented_Material)>`_
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('ModIMKPinching', matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, FprPos, FprNeg, A_pinch, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg, *uniqueArgs)
 
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ModIMKPeakOriented', matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg, *uniqueArgs)
+def SAWS(matTag, F0, FI, DU, S0, R1, R2, R3, R4, alpha, beta):
+    """
 
-# def ModIMKPinching(matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, FprPos, FprNeg, A_pinch, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg):
-#     """
+    This file contains the class definition for SAWSMaterial. SAWSMaterial 
+    provides the implementation of a one-dimensional hysteretic model developed
+    as part of the CUREe Caltech wood frame project.
 
+    ===================================   ===========================================================================
 
-#    This command is used to construct a ModIMKPinching material. This material simulates the modified Ibarra-Medina-Krawinkler deterioration model with pinching hysteretic response. NOTE: **before you use this material make sure that you have downloaded the latest OpenSees version**. A youtube video presents a summary of this model including the way to be used within openSees `youtube link <http://youtu.be/YHBHQ-xuybE>`_.
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``F0`` |float|                        Intercept strength of the shear wall spring element for the asymtotic line to the envelope curve F0 > FI > 0
 
+    ``FI`` |float|                        Intercept strength of the spring element for the pinching branch of the hysteretic curve. (FI > 0).
 
+    ``DU`` |float|                        Spring element displacement at ultimate load. (DU > 0).
 
+    ``S0`` |float|                        Initial stiffness of the shear wall spring element (S0 > 0).
 
-#    ===================================   ===========================================================================
+    ``R1`` |float|                        Stiffness ratio of the asymptotic line to the spring element envelope curve. The slope of this line is R1 S0. (0 < R1 < 1.0).
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``R2`` |float|                        Stiffness ratio of the descending branch of the spring element envelope curve. The slope of this line is R2 S0. ( R2 < 0).
 
-#    ``K0`` |float|                        elastic stiffness
+    ``R3`` |float|                        Stiffness ratio of the unloading branch off the spring element envelope curve. The slope of this line is R3 S0. ( R3 1).
 
-#    ``as_Plus`` |float|                   strain hardening ratio for positive loading direction
+    ``R4`` |float|                        Stiffness ratio of the pinching branch for the spring element. The slope of this line is R4 S0. ( R4 > 0).
 
-#    ``as_Neg`` |float|                    strain hardening ratio for negative loading direction
+    ``alpha`` |float|                     Stiffness degradation parameter for the shear wall spring element. (ALPHA > 0).
 
-#    ``My_Plus`` |float|                   effective yield strength for positive loading direction
+    ``beta`` |float|                      Stiffness degradation parameter for the spring element. (BETA > 0).
 
-#    ``My_Neg`` |float|                    effective yield strength for negative loading direction (Must be defined as a negative value)
+    ===================================   ===========================================================================
 
-#    ``FprPos`` |float|                    Ratio of the force at which reloading begins to force corresponding to the maximum historic deformation demand (positive loading direction)
+    .. seealso::
+        
+        `wiki <https://openseespydoc.readthedocs.io/en/latest/src/SAWS.html>`_    
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/SAWS_Material>`_
 
-#    ``FprNeg`` |float|                    Ratio of the force at which reloading begins to force corresponding to the absolute maximum historic deformation demand (negative loading direction)
-
-#    ``A_pinch`` |float|                   Ratio of reloading stiffness
-
-#    ``Lamda_S`` |float|                   Cyclic deterioration parameter for strength deterioration [E_t=Lamda_S*M_y, see Lignos and Krawinkler (2011); set Lamda_S = 0 to disable this mode of deterioration]
-
-#    ``Lamda_C`` |float|                   Cyclic deterioration parameter for post-capping strength deterioration [E_t=Lamda_C*M_y, see Lignos and Krawinkler (2011); set Lamda_C = 0 to disable this mode of deterioration]
-
-#    ``Lamda_A`` |float|                   Cyclic deterioration parameter for accelerated reloading stiffness deterioration [E_t=Lamda_A*M_y, see Lignos and Krawinkler (2011); set Lamda_A = 0 to disable this mode of deterioration]
-
-#    ``Lamda_K`` |float|                   Cyclic deterioration parameter for unloading stiffness deterioration [E_t=Lamda_K*M_y, see Lignos and Krawinkler (2011); set Lamda_K = 0 to disable this mode of deterioration]
-
-#    ``c_S`` |float|                       rate of strength deterioration. The default value is 1.0.
-
-#    ``c_C`` |float|                       rate of post-capping strength deterioration. The default value is 1.0.
-
-#    ``c_A`` |float|                       rate of accelerated reloading deterioration. The default value is 1.0.
-
-#    ``c_K`` |float|                       rate of unloading stiffness deterioration. The default value is 1.0.
-
-#    ``theta_p_Plus`` |float|              pre-capping rotation for positive loading direction (often noted as plastic rotation capacity)
-
-#    ``theta_p_Neg`` |float|               pre-capping rotation for negative loading direction (often noted as plastic rotation capacity) (must be defined as a positive value)
-
-#    ``theta_pc_Plus`` |float|             post-capping rotation for positive loading direction
-
-#    ``theta_pc_Neg`` |float|              post-capping rotation for negative loading direction (must be defined as a positive value)
-
-#    ``Res_Pos`` |float|                   residual strength ratio for positive loading direction
-
-#    ``Res_Neg`` |float|                   residual strength ratio for negative loading direction (must be defined as a positive value)
-
-#    ``theta_u_Plus`` |float|              ultimate rotation capacity for positive loading direction
-
-#    ``theta_u_Neg`` |float|               ultimate rotation capacity for negative loading direction (must be defined as a positive value)
-
-#    ``D_Plus`` |float|                    rate of cyclic deterioration in the positive loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
-
-#    ``D_Neg`` |float|                     rate of cyclic deterioration in the negative loading direction (this parameter is used to create assymetric hysteretic behavior for the case of a composite beam). For symmetric hysteretic response use 1.0.
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Modified_Ibarra-Medina-Krawinkler_Deterioration_Model_with_Pinched_Hysteretic_Response_(ModIMKPinching_Material)>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ModIMKPinching', matTag, K0, as_Plus, as_Neg, My_Plus, My_Neg, FprPos, FprNeg, A_pinch, Lamda_S, Lamda_C, Lamda_A, Lamda_K, c_S, c_C, c_A, c_K, theta_p_Plus, theta_p_Neg, theta_pc_Plus, theta_pc_Neg, Res_Pos, Res_Neg, theta_u_Plus, theta_u_Neg, D_Plus, D_Neg, *uniqueArgs)
-
-# def SAWS(matTag, F0, FI, DU, S0, R1, R2, R3, R4, alpha, beta):
-#     """
-
-
-#    This file contains the class definition for SAWSMaterial. SAWSMaterial provides the implementation of a one-dimensional hysteretic model develeped as part of the CUREe Caltech wood frame project.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``F0`` |float|                        Intercept strength of the shear wall spring element for the asymtotic line to the envelope curve F0 > FI > 0
-
-#    ``FI`` |float|                        Intercept strength of the spring element for the pinching branch of the hysteretic curve. (FI > 0).
-
-#    ``DU`` |float|                        Spring element displacement at ultimate load. (DU > 0).
-
-#    ``S0`` |float|                        Initial stiffness of the shear wall spring element (S0 > 0).
-
-#    ``R1`` |float|                        Stiffness ratio of the asymptotic line to the spring element envelope curve. The slope of this line is R1 S0. (0 < R1 < 1.0).
-
-#    ``R2`` |float|                        Stiffness ratio of the descending branch of the spring element envelope curve. The slope of this line is R2 S0. ( R2 < 0).
-
-#    ``R3`` |float|                        Stiffness ratio of the unloading branch off the spring element envelope curve. The slope of this line is R3 S0. ( R3 1).
-
-#    ``R4`` |float|                        Stiffness ratio of the pinching branch for the spring element. The slope of this line is R4 S0. ( R4 > 0).
-
-#    ``alpha`` |float|                     Stiffness degradation parameter for the shear wall spring element. (ALPHA > 0).
-
-#    ``beta`` |float|                      Stiffness degradation parameter for the spring element. (BETA > 0).
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/SAWS_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('SAWS', matTag, F0, FI, DU, S0, R1, R2, R3, R4, alpha, beta, *uniqueArgs)
+    """
+    uniqueArgs = []
+    ops.uniaxialMaterial('SAWS', matTag, F0, FI, DU, S0, R1, R2, R3, R4, alpha, beta, *uniqueArgs)
 
 # def BarSlip(matTag, fc, fy, Es, fu, Eh, db, ld, nb, depth, height, ancLratio, bsFlag, type, damage, unit):
 #     """
@@ -3269,131 +3023,121 @@ def SteelMPF(matTag, fyp, fyn, E0, bp, bn, params, a1, a2, a3, a4):
 #         uniqueArgs.append('-max')
 #     ops.uniaxialMaterial('MinMax', matTag, otherTag, minStrain, maxStrain, *uniqueArgs)
 
-# def ElasticBilin(matTag, EP1, EP2, epsP2, EN1, EN2, epsN2):
-#     """
+def ElasticBilin(matTag, EP1, EP2, epsP2, EN1=None, EN2=None, epsN2=None):
+    """
 
+    This command is used to construct an elastic bilinear uniaxial material object. Unlike all other bilinear materials, the unloading curve follows the loading curve exactly.
 
+    ===================================   ===========================================================================
 
+    ``matTag`` |int|                      integer tag identifying material
 
-#    This command is used to construct an elastic bilinear uniaxial material object. Unlike all other bilinear materials, the unloading curve follows the loading curve exactly.
+    ``EP1`` |float|                       tangent in tension for stains: 0 <= strains <=    ``epsP2``
 
+    ``EP2`` |float|                       tangent when material in tension with strains >    ``epsP2``
 
+    ``epsP2`` |float|                     strain at which material changes tangent in tension.
 
-#    ===================================   ===========================================================================
+    ``EN1`` |float|                       optional, default =    ``EP1``. tangent in compression for stains: 0 < strains <=    ``epsN2``
 
-#    ``matTag`` |int|                      integer tag identifying material
+    ``EN2`` |float|                       optional, default =    ``EP2``. tangent in compression with strains <    ``epsN2``
 
-#    ``EP1`` |float|                       tangent in tension for stains: 0 <= strains <=    ``epsP2``
+    ``epsN2`` |float|                     optional, default = ``-epsP2``. strain at which material changes tangent in compression.
 
-#    ``EP2`` |float|                       tangent when material in tension with strains >    ``epsP2``
+    ===================================   ===========================================================================
 
-#    ``epsP2`` |float|                     strain at which material changes tangent in tension.
+    .. note::
+    
+        ``eps0`` can not be controlled. It is always zero.
+    
+    .. seealso::
+     
+        `wiki <https://openseespydoc.readthedocs.io/en/latest/src/ElasticBilin.html>`_   
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/ElasticBilin_Material>`_
 
-#    ``EN1`` |float|                       optional, default =    ``EP1``. tangent in compression for stains: 0 < strains <=    ``epsN2``
+    """
+    
+    
+    
+    uniqueArgs = []
+    
+    if EN1:
+        uniqueArgs.append(EN1)
+    if EN2:
+        uniqueArgs.append(EN2)    
+    if epsN2:
+        uniqueArgs.append(epsN2)
+        
+    ops.uniaxialMaterial('ElasticBilin', matTag, EP1, EP2, epsP2, EN1, EN2, epsN2)
 
-#    ``EN2`` |float|                       optional, default =    ``EP2``. tangent in compression with strains <    ``epsN2``
+def ElasticMultiLinear(matTag, eta=None, strain=None, stress=None):
+    """
 
-#    ``epsN2`` |float|                     optional, default = ``-epsP2``. strain at which material changes tangent in compression.
+    This command is used to construct a multi-linear elastic uniaxial material 
+    object. The nonlinear stress-strain relationship is given by a multi-linear 
+    curve that is define by a set of points. The behavior is nonlinear but it 
+    is elastic. This means that the material loads and unloads along the same 
+    curve, and no energy is dissipated. The slope given by the last two 
+    specified points on the positive strain axis is extrapolated to infinite 
+    positive strain. Similarly, the slope given by the last two specified 
+    points on the negative strain axis is extrapolated to infinite negative 
+    strain. The number of provided strain points needs to be equal to the 
+    number of provided stress points.
 
-#    ===================================   ===========================================================================
 
 
+    ===================================   ===========================================================================
 
-# .. note::
+    ``matTag`` |int|                      integer tag identifying material
 
+    ``eta`` |float|                       damping tangent (optional, default=0.0)
 
+    ``strain`` |listf|                    list of strain points along stress-strain curve
 
-#    ``eps0`` can not be controlled. It is always zero.
+    ``stress`` |listf|                    list of stress points along stress-strain curve
 
+    ===================================   ===========================================================================
 
+    .. seealso::
+        `wiki <https://openseespydoc.readthedocs.io/en/latest/src/ElasticMultiLinear.html>`_
 
-# .. seealso::
+    
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/ElasticMultiLinear_Material>`_
 
+    """
+    uniqueArgs = []
+    
+    if eta:
+        uniqueArgs.append(eta) 
+    if strain:
+        uniqueArgs.append('-strain')
+        uniqueArgs +=strain
+    if stress:
+        uniqueArgs.append('-stress')
+        uniqueArgs +=stress
+    ops.uniaxialMaterial('ElasticMultiLinear', matTag, *uniqueArgs)
 
+def MultiLinear(matTag, pts):
+    """
 
+    This command is used to construct a uniaxial multilinear material object.
 
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/ElasticBilin_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('ElasticBilin', matTag, EP1, EP2, epsP2, EN1, EN2, epsN2, *uniqueArgs)
-
-# def ElasticMultiLinear(matTag, eta, strain=None, stress=None):
-#     """
-
-
-
-
-#    This command is used to construct a multi-linear elastic uniaxial material object. The nonlinear stress-strain relationship is given by a multi-linear curve that is define by a set of points. The behavior is nonlinear but it is elastic. This means that the material loads and unloads along the same curve, and no energy is dissipated. The slope given by the last two specified points on the positive strain axis is extrapolated to infinite positive strain. Similarly, the slope given by the last two specified points on the negative strain axis is extrapolated to infinite negative strain. The number of provided strain points needs to be equal to the number of provided stress points.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``eta`` |float|                       damping tangent (optional, default=0.0)
-
-#    ``strain`` |listf|                    list of strain points along stress-strain curve
-
-#    ``stress`` |listf|                    list of stress points along stress-strain curve
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/ElasticMultiLinear_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     if strain:
-#         uniqueArgs.append('-strain')
-#         uniqueArgs.append(strain)
-#     if stress:
-#         uniqueArgs.append('-stress')
-#         uniqueArgs.append(stress)
-#     ops.uniaxialMaterial('ElasticMultiLinear', matTag, eta, *uniqueArgs)
-
-# def MultiLinear(matTag, pts):
-#     """
-
-
-#    This command is used to construct a uniaxial multilinear material object.
-
-
-
-#    ===================================   ===========================================================================
-
-#    ``matTag`` |int|                      integer tag identifying material
-
-#    ``pts`` |listf|                       a list of strain and stress points
-
-
-
-#                                          ``pts = [strain1, stress1, strain2, stress2, ..., ]``
-
-#    ===================================   ===========================================================================
-
-
-
-# .. seealso::
-
-
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/MultiLinear_Material>`_
-
-#     """
-#     uniqueArgs = []
-#     ops.uniaxialMaterial('MultiLinear', matTag, *pts, *uniqueArgs)
+    ===================================   ===========================================================================
+    ``matTag`` |int|                      integer tag identifying material
+
+    ``pts`` |listf|                       a list of strain and stress points
+                                          ``pts = [strain1, stress1, strain2, stress2, ..., ]``
+    ===================================   ===========================================================================
+
+    .. seealso::
+        
+        `Wiki <https://openseespydoc.readthedocs.io/en/latest/src/MultiLinear.html>`_
+        
+        `Notes <http://opensees.berkeley.edu/wiki/index.php/MultiLinear_Material>`_
+
+    """
+    ops.uniaxialMaterial('MultiLinear', matTag, *pts)
 
 # def InitStrainMaterial(matTag, otherTag, initStrain):
 #     """
@@ -3482,56 +3226,54 @@ def SteelMPF(matTag, fyp, fyn, E0, bp, bn, params, a1, a2, a3, a4):
 # def Pinching4(matTag, ePf1, ePd1, ePf2, ePd2, ePf3, ePd3, ePf4, ePd4, eNd1=None, eNf2=None, eNd2=None, eNf3=None, eNd3=None, eNf4=None, eNd4=None, rDispP, rForceP, uForceP, rForceN=None, uForceN=None, gK1, gK2, gK3, gK4, gKLim, gD1, gD2, gD3, gD4, gDLim, gF1, gF2, gF3, gF4, gFLim, gE, dmgType):
 #     """
 
+#     This command is used to construct a uniaxial material that represents a 
+#     'pinched' load-deformation response and exhibits degradation under cyclic 
+#     loading. Cyclic degradation of strength and stiffness occurs in three ways:
+#     unloading stiffness degradation, reloading stiffness degradation, 
+#     strength degradation.
 
-#    This command is used to construct a uniaxial material that represents a 'pinched' load-deformation response and exhibits degradation under cyclic loading. Cyclic degradation of strength and stiffness occurs in three ways: unloading stiffness degradation, reloading stiffness degradation, strength degradation.
 
+#     ==========================================================   ===========================================================================
 
+#     ``matTag`` |int|                                             integer tag identifying material
 
-#    ==========================================================   ===========================================================================
+#     ``ePf1``    ``ePf2``    ``ePf3``    ``ePf4`` |float|         floating point values defining force points on the positive response envelope
 
-#    ``matTag`` |int|                                             integer tag identifying material
+#     ``ePd1``    ``ePd2``    ``ePd3``    ``ePd4`` |float|         floating point values defining deformation points on the positive response envelope
 
-#    ``ePf1``    ``ePf2``    ``ePf3``    ``ePf4`` |float|         floating point values defining force points on the positive response envelope
+#     ``eNf1``    ``eNf2``    ``eNf3``    ``eNf4`` |float|         floating point values defining force points on the negative response envelope
 
-#    ``ePd1``    ``ePd2``    ``ePd3``    ``ePd4`` |float|         floating point values defining deformation points on the positive response envelope
+#     ``eNd1``    ``eNd2``    ``eNd3``    ``eNd4`` |float|         floating point values defining deformation points on the negative response envelope
 
-#    ``eNf1``    ``eNf2``    ``eNf3``    ``eNf4`` |float|         floating point values defining force points on the negative response envelope
+#     ``rDispP`` |float|                                           floating point value defining the ratio of the deformation at which reloading occurs to the maximum historic deformation demand
 
-#    ``eNd1``    ``eNd2``    ``eNd3``    ``eNd4`` |float|         floating point values defining deformation points on the negative response envelope
+#     ``fFoceP`` |float|                                           floating point value defining the ratio of the force at which reloading begins to force corresponding to the maximum historic deformation demand
 
-#    ``rDispP`` |float|                                           floating point value defining the ratio of the deformation at which reloading occurs to the maximum historic deformation demand
+#     ``uForceP`` |float|                                          floating point value defining the ratio of strength developed upon unloading from negative load to the maximum strength developed under monotonic loading
 
-#    ``fFoceP`` |float|                                           floating point value defining the ratio of the force at which reloading begins to force corresponding to the maximum historic deformation demand
+#     ``rDispN`` |float|                                           floating point value defining the ratio of the deformation at which reloading occurs to the minimum historic deformation demand
 
-#    ``uForceP`` |float|                                          floating point value defining the ratio of strength developed upon unloading from negative load to the maximum strength developed under monotonic loading
+#     ``fFoceN`` |float|                                           floating point value defining the ratio of the force at which reloading begins to force corresponding to the minimum historic deformation demand
 
-#    ``rDispN`` |float|                                           floating point value defining the ratio of the deformation at which reloading occurs to the minimum historic deformation demand
+#     ``uForceN`` |float|                                          floating point value defining the ratio of strength developed upon unloading from negative load to the minimum strength developed under monotonic loading
 
-#    ``fFoceN`` |float|                                           floating point value defining the ratio of the force at which reloading begins to force corresponding to the minimum historic deformation demand
+#     ``gK1``  ``gK2``  ``gK3``  ``gK4``  ``gKLim`` |float|        floating point values controlling cyclic degradation model for unloading stiffness degradation
 
-#    ``uForceN`` |float|                                          floating point value defining the ratio of strength developed upon unloading from negative load to the minimum strength developed under monotonic loading
+#     ``gD1``  ``gD2``  ``gD3``  ``gD4``  ``gDLim`` |float|        floating point values controlling cyclic degradation model for reloading stiffness degradation
 
-#    ``gK1``  ``gK2``  ``gK3``  ``gK4``  ``gKLim`` |float|        floating point values controlling cyclic degradation model for unloading stiffness degradation
+#     ``gF1``  ``gF2``  ``gF3``  ``gF4``  ``gFLim`` |float|        floating point values controlling cyclic degradation model for strength degradation
 
-#    ``gD1``  ``gD2``  ``gD3``  ``gD4``  ``gDLim`` |float|        floating point values controlling cyclic degradation model for reloading stiffness degradation
+#     ``gE`` |float|                                               floating point value used to define maximum energy dissipation under cyclic loading. Total energy dissipation capacity is defined as this factor multiplied by the energy dissipated under monotonic loading.
 
-#    ``gF1``  ``gF2``  ``gF3``  ``gF4``  ``gFLim`` |float|        floating point values controlling cyclic degradation model for strength degradation
+#     ``dmgType`` |str|                                            string to indicate type of damage (option: ``'cycle'``, ``'energy'``)
 
-#    ``gE`` |float|                                               floating point value used to define maximum energy dissipation under cyclic loading. Total energy dissipation capacity is defined as this factor multiplied by the energy dissipated under monotonic loading.
-
-#    ``dmgType`` |str|                                            string to indicate type of damage (option: ``'cycle'``, ``'energy'``)
-
-#    ==========================================================   ===========================================================================
-
+#     ==========================================================   ===========================================================================
 
 
 # .. seealso::
 
 
-
-
-
-#    `Notes <http://opensees.berkeley.edu/wiki/index.php/Pinching4_Material>`_
+#     `Notes <http://opensees.berkeley.edu/wiki/index.php/Pinching4_Material>`_
 
 #     """
 #     uniqueArgs = []

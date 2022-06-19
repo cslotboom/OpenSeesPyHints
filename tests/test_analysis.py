@@ -5,6 +5,7 @@ Created on Sat Jun  4 14:06:21 2022
 @author: Christian
 """
 
+import hysteresis
 import openseespyhint as op
 import openseespy.opensees as ops
 
@@ -107,14 +108,15 @@ params = [15,.925,0.15]
 a = [1.,1.,1.,1.]
 # op.model.uniaxialMaterial.Steel02(matTag, Fy, E0, b, params, *a, sigInit=1.)
 # ops.uniaxialMaterial('Steel02', matTag, Fy, E0, b, *params, *uniqueArgs)
-ops.uniaxialMaterial('Steel02', matTag, Fy, E0, b, *params, 1*Fy/E0, 1.0, 1*Fy/E0, 1.0)
+# ops.uniaxialMaterial('Steel02', matTag, Fy, E0, b, *params, 1*Fy/E0, 1.0, 1*Fy/E0, 1.0)
+ops.uniaxialMaterial('Steel4', matTag, Fy, E0, '-asym', '-kin',b,*params,b,*params,'-iso', 1., 1., 1., 1.,1.,1.)
 
 
-# ops.uniaxialMaterial('DowelType', 1, 90, 98.9, 4.3, 1.2, 1.09, 1.01, 0.21, 1.6, 1.32, 0, 0.66, '-exponential', 823, 0.02, 955, 10.7, 123)
+# ops.uniaxialMaterial('DowelType', 2, 90, 98.9, 4.3, 1.2, 1.09, 1.01, 0.21, 1.6, 1.32, 0, 0.66, '-exponential', 823, 0.02, 955, 10.7, 123)
 
 
 
-
+# b_i, rho_i, b_l, R_i, l_yp, b_ic, rho_ic, b_lc, R_ic, 
 
 
 
