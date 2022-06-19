@@ -71,10 +71,10 @@ else:
 Currently being built and tested. The build status of commands is as follows:
 
 ## model
- - []   element (in progress)
+ - [ ]   element (in progress)
  - [x]   node
  - [x]   SP_Constraint
- - []   mp_constraint
+ - [ ]   mp_constraint
  - [x]   pc
  - [x]   timeSeries
  - [x]   pattern
@@ -83,19 +83,19 @@ Currently being built and tested. The build status of commands is as follows:
  - [x]   reyleigh
  - [x]   block
  - [x]   beamIntegration
- - []   uniaxialMaterial (in progress)
- - []   ndMaterial (in progress)
+ - [ ]   uniaxialMaterial (in progress)
+ - [ ]   ndMaterial (in progress)
  - [x]   section
  - [x]   frictionModel
  - [x]   geomTransf
 
-## [x] Analysis
-## [] Ouput
-## [x] Utility
-## [] FSI
-## [] Sensitivity
-## [] Relieability
-## [] Parallel
+[x] ## Analysis
+[ ] ## Ouput
+[x] ## Utility
+[ ] ## FSI
+[ ] ## Sensitivity
+[ ] ## Relieability
+[ ] ## Parallel
 
 Once built, commands should be tested and compared to their original OpenSeesPy counterpart.
 Commands untested are labeled as such.
