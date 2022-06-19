@@ -70,7 +70,7 @@ else:
 
 Currently being built and tested. The build status of commands is as follows:
 
-## model
+## model [ ]
  - [ ]   element (in progress)
  - [x]   node
  - [x]   SP_Constraint
@@ -89,13 +89,13 @@ Currently being built and tested. The build status of commands is as follows:
  - [x]   frictionModel
  - [x]   geomTransf
 
-[x] ## Analysis
-[ ] ## Ouput
-[x] ## Utility
-[ ] ## FSI
-[ ] ## Sensitivity
-[ ] ## Relieability
-[ ] ## Parallel
+ Analysis
+## Ouput [ ]
+## Utility [x]
+## FSI [ ]
+## Sensitivity [ ]
+## Relieability [ ]
+## Parallel [ ]
 
 Once built, commands should be tested and compared to their original OpenSeesPy counterpart.
 Commands untested are labeled as such.
