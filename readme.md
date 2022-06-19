@@ -3,9 +3,9 @@ A wrapper around the OpenSeesPy libray that contains docstrings and easier funct
 All commands can be mixed with basic OpenSeesPy commands.
 
 
-
-
-![demo](docs/img/docstring2.JPG)
+<p align="center">
+  <img src="docs/img/docstring2.JPG">
+</p>
 
 # a basic example:
 ```Python
