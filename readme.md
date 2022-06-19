@@ -4,7 +4,7 @@ All commands can be mixed with basic OpenSeesPy commands.
 
 # a basic example:
 ```Python
-python:ex/WebsiteDemo.py
+python:https://github.com/cslotboom/OpenSeesPyHints/blob/main/ex/WebsiteDemo.py
 
 ```
 
