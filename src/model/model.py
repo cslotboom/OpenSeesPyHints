@@ -1,11 +1,9 @@
 import openseespy.opensees as ops
 
-def basic(ndm, ndf):
+def basic(ndm, ndf=None):
     """
     Set the default model dimensions and number of dofs.
-     
-     
-     
+          
     ========================   ===========================================================================
      
     ``ndm`` |int|              number of dimensions (1,2,3)

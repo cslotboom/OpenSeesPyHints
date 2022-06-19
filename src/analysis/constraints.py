@@ -11,13 +11,15 @@ def Plain():
     
      .. note::
     
-    As mentioned, this constraint handler can only enforce homogeneous single 
-    point constraints (fix command) and multi-pont constraints where the 
-    constraint matrix is equal to the identity (equalDOF command).
+        As mentioned, this constraint handler can only enforce homogeneous single 
+        point constraints (fix command) and multi-pont constraints where the 
+        constraint matrix is equal to the identity (equalDOF command).
+
+    Hints:
+        untested
 
     """
-    uniqueArgs = []
-    ops.constraints('Plain', *uniqueArgs)
+    ops.constraints('Plain')
 
 def Lagrange(alphaS, alphaM):
     """
@@ -28,23 +30,23 @@ def Lagrange(alphaS, alphaM):
     constraint handler:
     
     ================================   ===========================================================================
-    
-    ``alphaS`` |float|                 :math:`\alpha_S` factor on single points.
-    
-    ``alphaM`` |float|                 :math:`\alpha_M` factor on multi-points.
-    
+    ``alphaS`` |float|                 :math:`\\alpha_S` factor on single points.
+    ``alphaM`` |float|                 :math:`\\alpha_M` factor on multi-points.
     ================================   ===========================================================================
     
     .. note::
     
-    The Lagrange multiplier method introduces new unknowns to the system of 
-    equations. The diagonal part of the system corresponding to these new 
-    unknowns is 0.0. This ensure that the system IS NOT symmetric positive 
-    definite.
+        The Lagrange multiplier method introduces new unknowns to the system of 
+        equations. The diagonal part of the system corresponding to these new 
+        unknowns is 0.0. This ensure that the system IS NOT symmetric positive 
+        definite.
+
+    Hints:
+        untested
 
     """
-    uniqueArgs = []
-    ops.constraints('Lagrange', alphaS, alphaM, *uniqueArgs)
+
+    ops.constraints('Lagrange', alphaS, alphaM)
 
 def Penalty(alphaS, alphaM):
     """
@@ -54,24 +56,24 @@ def Penalty(alphaS, alphaM):
     command to construct a penalty constraint handler:
 
     ================================   ===========================================================================
-    
     ``alphaS`` |float|                 :math:`\alpha_S` factor on single points.
-    
     ``alphaM`` |float|                 :math:`\alpha_M` factor on multi-points.
-    
     ================================   ===========================================================================
     
     .. note::
    
     
-    The degree to which the constraints are enforced is dependent on the penalty 
-    values chosen. Problems can arise if these values are too small 
-    (constraint not enforced strongly enough) or too large 
-    (problems associated with conditioning of the system of equations).
+        The degree to which the constraints are enforced is dependent on the penalty 
+        values chosen. Problems can arise if these values are too small 
+        (constraint not enforced strongly enough) or too large 
+        (problems associated with conditioning of the system of equations).
+
+    Hints:
+        untested
 
     """
-    uniqueArgs = []
-    ops.constraints('Penalty', alphaS, alphaM, *uniqueArgs)
+
+    ops.constraints('Penalty', alphaS, alphaM)
 
 def Transformation():
     """
@@ -91,7 +93,10 @@ def Transformation():
         
         And remember if a node is constrained to multiple nodes in your model it probably means you have messed up.
 
+    Hints:
+        untested
+
     """
-    uniqueArgs = []
-    ops.constraints('Transformation', *uniqueArgs)
+
+    ops.constraints('Transformation')
 

@@ -9,7 +9,9 @@ import openseespyhint as op
 import openseespy.opensees as ops
 
 
-op.model.model.basic(2, 3)
+
+ops.wipe()
+op.model.basic(2, 3)
 
 # ops.wipe()
 # ops.node(1, *[0.,0.])
@@ -17,7 +19,7 @@ op.model.model.basic(2, 3)
 # import numpy as np
 
 # constraints
-op.analysis.constraints
+# op.analysis.constraints
 op.analysis.constraints.Plain()
 op.analysis.constraints.Lagrange(0.2, 0.3)
 op.analysis.constraints.Penalty(0.2, 0.3)
@@ -36,18 +38,81 @@ op.analysis.test.NormDispAndUnbalance(tol, tol, Niter)
 # ops.wipe()
 
 
-# op.analysis.algorithm.Linear()
-# op.analysis.algorithm.Newton()
-# op.analysis.algorithm.NewtonLineSearch()
-# op.analysis.algorithm.ModifiedNewton()
-# op.analysis.algorithm.KrylovNewton()
-# op.analysis.algorithm.SecantNewton()
-# op.analysis.algorithm.RaphsonNewton()
+op.analysis.algorithm.Linear()
+op.analysis.algorithm.Newton()
+op.analysis.algorithm.NewtonLineSearch()
+op.analysis.algorithm.ModifiedNewton()
+op.analysis.algorithm.KrylovNewton()
+op.analysis.algorithm.SecantNewton()
+op.analysis.algorithm.RaphsonNewton()
 op.analysis.algorithm.PeriodicNewton()
-# op.analysis.algorithm.BFGS()
-# op.analysis.algorithm.Broyden()
+op.analysis.algorithm.BFGS()
+op.analysis.algorithm.Broyden()
+
+
+
+
+
+
+
+
+coord = [1.,1.]
+mass = [0.,0., 0.]
+# ops.node(1, *coord,'-mass',  *mass)
+
+op.model.node(1, coord,mass=mass)
+
+
+
+incr = 1
+nodeTag = 1
+dof = 1
+s = 1
+alpha = 1
+# op.analysis.analysis('Static')
+# op.analysis.integrator.LoadControl(incr)
+# op.analysis.integrator.DisplacementControl(nodeTag, dof, incr)
+# op.analysis.integrator.ParallelDisplacementControl(nodeTag, dof, incr)
+# op.analysis.integrator.MinUnbalDispNorm(1)
+# op.analysis.integrator.ArcLength(s, alpha)]
+
+
+# gamma = 1
+# beta = 1
+# op.analysis.analysis('Transient')
+
+# op.analysis.integrator.Newmark(gamma, beta)
+
+
+# op.utility.stop()
+# op.utility.updateElementDomain()
+# op.utility.updateMaterialStage(1, 1)
+# op.utility.wipe()
+# op.utility.wipeAnalysis()
+
+
+# op.analysis.analysis('Transient')
+
+# op.analysis.analysis.analysis('Static')
+# op.analysis.analyze.
 
 # ops.algorithm('Linear')
+
+matTag = 1
+Fy = 50.
+E0 = 100.
+b = 0.01
+params = [15,.925,0.15]
+
+a = [1.,1.,1.,1.]
+# op.model.uniaxialMaterial.Steel02(matTag, Fy, E0, b, params, *a, sigInit=1.)
+# ops.uniaxialMaterial('Steel02', matTag, Fy, E0, b, *params, *uniqueArgs)
+ops.uniaxialMaterial('Steel02', matTag, Fy, E0, b, *params, 1*Fy/E0, 1.0, 1*Fy/E0, 1.0)
+
+
+# ops.uniaxialMaterial('DowelType', 1, 90, 98.9, 4.3, 1.2, 1.09, 1.01, 0.21, 1.6, 1.32, 0, 0.66, '-exponential', 823, 0.02, 955, 10.7, 123)
+
+
 
 
 

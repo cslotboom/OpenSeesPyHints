@@ -70,30 +70,30 @@ argTypes    = np.array(argTypes)
 print(np.all(solution == argTypes))
 
 
-InputText = "element('SFI_MVLEM', eleTag,*eleNodes,m,c, '-thick',*thick,'-width',*widths,'-mat',*mat_tags)"
-args        = pa.getArgsFromTxt(InputText)
-argTypes    = pa.parseAllArgs(args)
-argTypes    = np.array(argTypes)
+# InputText = "element('SFI_MVLEM', eleTag,*eleNodes,m,c, '-thick',*thick,'-width',*widths,'-mat',*mat_tags)"
+# args        = pa.getArgsFromTxt(InputText)
+# argTypes    = pa.parseAllArgs(args)
+# argTypes    = np.array(argTypes)
 
-InputText = "node(nodeTag, *crds, '-ndf', ndf, '-mass', *mass, '-disp', *disp, '-vel', *vel, '-accel', *accel)"
-args        = pa.getArgsFromTxt(InputText)
-argTypes    = pa.parseAllArgs(args)
-argTypes    = np.array(argTypes)
-
-
-
-InputText = "timeSeries('Path',tag,'-dt',dt=0.0,'-values',*values,'-time',*time,'-filePath',filePath='','-fileTime',fileTime='','-factor',factor=1.0,'-startTime',startTime=0.0,'-useLast','-prependZero')"
-print()
-args        = pa.getArgsFromTxt(InputText)
-argTypes    = pa.parseAllArgs(args)
-argTypes    = np.array(argTypes)
+# InputText = "node(nodeTag, *crds, '-ndf', ndf, '-mass', *mass, '-disp', *disp, '-vel', *vel, '-accel', *accel)"
+# args        = pa.getArgsFromTxt(InputText)
+# argTypes    = pa.parseAllArgs(args)
+# argTypes    = np.array(argTypes)
 
 
 
-InputText = "model('basic', '-ndm', ndm, '-ndf', ndf=ndm*(ndm+1)/2)"
-args        = pa.getArgsFromTxt(InputText)
-argTypes    = pa.parseAllArgs(args)
-argTypes    = np.array(argTypes)
+# InputText = "timeSeries('Path',tag,'-dt',dt=0.0,'-values',*values,'-time',*time,'-filePath',filePath='','-fileTime',fileTime='','-factor',factor=1.0,'-startTime',startTime=0.0,'-useLast','-prependZero')"
+# print()
+# args        = pa.getArgsFromTxt(InputText)
+# argTypes    = pa.parseAllArgs(args)
+# argTypes    = np.array(argTypes)
+
+
+
+# InputText = "model('basic', '-ndm', ndm, '-ndf', ndf=ndm*(ndm+1)/2)"
+# args        = pa.getArgsFromTxt(InputText)
+# argTypes    = pa.parseAllArgs(args)
+# argTypes    = np.array(argTypes)
 
 
 # =============================================================================
@@ -136,7 +136,7 @@ for text in intText:
 
 a,b,c = pa.getFunctionText(InputText)
 
-print(c)
+print(b)
 print(funcText)
 
 

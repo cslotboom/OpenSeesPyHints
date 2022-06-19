@@ -2,15 +2,12 @@ import openseespy.opensees as ops
 
 def Linear(secant=False, initial=False, factorOnce=False):
     """
-
     Create a Linear algorithm which takes one iteration to solve the system of equations.   
     
     ================================   =============================================================
     
-    ``secant`` |bool|                  Flag to indicate to use secant stiffness. (optional)
-    
-    ``initial`` |bool|                 Flag to indicate to use initial stiffness. (optional)
-    
+    ``secant`` |bool|                  Flag to indicate to use secant stiffness. (optional)   
+    ``initial`` |bool|                 Flag to indicate to use initial stiffness. (optional)   
     ``factorOnce`` |bool|              Flag to indicate to only set up and    
                                        factor matrix once. (optional)
     
@@ -37,22 +34,18 @@ def Linear(secant=False, initial=False, factorOnce=False):
 def Newton(secant=True, initial=True, initialThenCurrent=True):
     """
 
-
-    Create a Newton-Raphson algorithm. The Newton-Raphson method is the most widely used and most robust method for solving nonlinear algebraic equations.
-    
-    
-    
+    Create a Newton-Raphson algorithm. The Newton-Raphson method is the most widely used and most robust method for solving nonlinear algebraic equations.  
+      
     ================================   =============================================================
-    
-    ``secant`` |bool|                  Flag to indicate to use secant stiffness. (optional)
-    
+    ``secant`` |bool|                  Flag to indicate to use secant stiffness. (optional)   
     ``initial`` |bool|                 Flag to indicate to use initial stiffness.(optional)
-    
     ``initialThenCurrent`` |bool|      Flag to indicate to use initial stiffness    
                                        on first step, then use current stiffness    
                                        for subsequent steps. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -81,6 +74,9 @@ def ModifiedNewton(secant=True, initial=True):
     ``initial`` |bool|                 Flag to indicate to use initial stiffness.(optional)
     ================================   =============================================================
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -103,24 +99,18 @@ def NewtonLineSearch(Bisection=False, Secant=False, RegulaFalsi=False, InitialIn
     algorithm to solve the nonlinear residual equation.
     
     ================================   =============================================================
-    
-    ``Bisection`` |bool|               Flag to use Bisection line search. (optional)
-    
+    ``Bisection`` |bool|               Flag to use Bisection line search. (optional)    
     ``Secant`` |bool|                  Flag to use Secant line search. (optional)
-    
     ``RegulaFalsi`` |bool|             Flag to use RegulaFalsi line search. (optional)
-    
     ``InitialInterpolated`` |bool|     Flag to use InitialInterpolated line search.(optional)
-    
     ``tol`` |float|                    Tolerance for search. (optional)
-    
     ``maxIter`` |float|                Max num of iterations to try. (optional)
-    
     ``minEta`` |float|                 Min :math:`\eta` value. (optional)
-    
     ``maxEta`` |float|                 Max :math:`\eta` value. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -166,11 +156,9 @@ def NewtonLineSearch(Bisection=False, Secant=False, RegulaFalsi=False, InitialIn
 
 def KrylovNewton(iterate=False, increment=False, maxDim=None):
     """
-
     Create a KrylovNewton algorithm which uses a Krylov subspace accelerator to accelerate the convergence of the ModifiedNewton.
         
     ================================   =============================================================
-    
     ``iterate`` |str|                  Tangent to iterate on,    
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
     
@@ -180,8 +168,10 @@ def KrylovNewton(iterate=False, increment=False, maxDim=None):
     ``maxDim`` |int|                   Max number of iterations until     
                                        the tangent is reformed and    
                                        the acceleration restarts. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -199,24 +189,22 @@ def KrylovNewton(iterate=False, increment=False, maxDim=None):
 
 def SecantNewton(iterate=None, increment=None, maxDim=None):
     """
-
     Create a SecantNewton algorithm which uses the two-term update to accelerate the convergence of the ModifiedNewton.
     
     The default "cut-out" values recommended by Crisfield (R1=3.5, R2=0.3) are used.
     
     ================================   =============================================================
-    
     ``iterate`` |str|                  Tangent to iterate on,
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
-    
     ``increment`` |str|                Tangent to increment on,
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
-    
     ``maxDim`` |int|                   Max number of iterations until
                                        the tangent is reformed and
                                        the acceleration restarts. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -239,14 +227,14 @@ def RaphsonNewton(iterate=None, increment=None):
     Create a RaphsonNewton algorithm which uses Raphson accelerator.
     
     ================================   =============================================================
-    
     ``iterate`` |str|                  Tangent to iterate on,
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
-    
     ``increment`` |str|                Tangent to increment on,
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -261,22 +249,20 @@ def RaphsonNewton(iterate=None, increment=None):
 
 def PeriodicNewton(iterate=None, increment=None, maxDim=None):
     """
-
     Create a PeriodicNewton algorithm using periodic accelerator.
-
-    ================================   =============================================================
     
+    ================================   =============================================================
     ``iterate`` |str|                  Tangent to iterate on,
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
-    
     ``increment`` |str|                Tangent to increment on,
                                        ``'current'``, ``'initial'``, ``'noTangent'`` (optional)
-    
     ``maxDim`` |int|                   Max number of iterations until
                                        the tangent is reformed and
                                        the acceleration restarts. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -304,14 +290,13 @@ def BFGS(secant=False, initial=False, count=None):
     ModifiedNewton it does not rely on the tangent matrix from a previous iteration.
     
     ================================   =============================================================
-    
     ``secant`` |bool|                  Flag to indicate to use secant stiffness. (optional)
-    
     ``initial`` |bool|                 Flag to indicate to use initial stiffness.(optional)
-    
     ``count`` |int|                    Number of iterations. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -335,14 +320,13 @@ def Broyden(secant=False, initial=False, count=None):
     the current time step.
     
     ================================   =============================================================
-    
     ``secant`` |bool|                  Flag to indicate to use secant stiffness. (optional)
-    
     ``initial`` |bool|                 Flag to indicate to use initial stiffness.(optional)
-    
     ``count`` |int|                    Number of iterations. (optional)
-    
     ================================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []

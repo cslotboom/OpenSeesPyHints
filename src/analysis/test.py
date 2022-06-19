@@ -60,6 +60,9 @@ def NormDispIncr(tol, iter, pFlag=0, nType=None):
     When using the Lagrange method to enforce the constraints, the Lagrange 
     multipliers appear in the solution vector.
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -93,6 +96,9 @@ def EnergyIncr(tol, iter, pFlag=0, nType=None):
     * When using the Penalty method additional large forces to enforce the penalty functions exist on the right hand side, making convergence using this test usually impossible (even though solution might have converged).
     * When using the Lagrange method to enforce the constraints, the Lagrange multipliers appear in the solution vector.
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -123,6 +129,9 @@ def RelativeNormUnbalance(tol, iter, pFlag=0, nType=None):
     
     * When using the Penalty method additional large forces to enforce the penalty functions exist on the right hand side, making convergence using this test usually impossible (even though solution might have converged).
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -151,6 +160,9 @@ def RelativeNormDispIncr(tol, iter, pFlag=0, nType=None):
     ``nType`` |int|          Type of norm, (0 = max-norm, 1 = 1-norm, 2 = 2-norm). (optional)
     
     ======================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -182,6 +194,9 @@ def RelativeTotalNormDispIncr(tol, iter, pFlag=0, nType=None):
     
     ======================   =============================================================
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -212,6 +227,9 @@ def RelativeEnergyIncr(tol, iter, pFlag=0, nType=None):
     
     ======================   =============================================================
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -241,6 +259,9 @@ def FixedNumIter(iter, pFlag=0, nType=None):
     
     ======================   =============================================================
 
+    Hints:
+        untested
+
     """
     uniqueArgs = []
     
@@ -269,6 +290,9 @@ def NormDispAndUnbalance(tolIncr, tolR, iter, pFlag=0, nType=None, maxincr=None)
     ``maxincr`` |int|        Maximum times of error increasing. (optional)
     
     ======================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
@@ -303,6 +327,9 @@ def NormDispOrUnbalance(tolIncr, tolR, iter, pFlag=0, nType=None, maxincr=None):
     ``maxincr`` |int|        Maximum times of error increasing. (optional)
     
     ======================   =============================================================
+
+    Hints:
+        untested
 
     """
     uniqueArgs = []
