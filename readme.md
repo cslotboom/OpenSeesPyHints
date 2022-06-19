@@ -4,7 +4,7 @@ All commands can be mixed with basic OpenSeesPy commands.
 
 
 <p align="center">
-  <img src="docs/img/docstring2.JPG">
+  <img src="doc/img/docstring2.JPG">
 </p>
 
 # a basic example:
