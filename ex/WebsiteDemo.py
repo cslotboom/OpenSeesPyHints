@@ -1,7 +1,7 @@
 import openseespyhint as op
 import openseespy.opensees as ops
 
-# Delete any old opensees Objects
+# Delete any old opensees objects
 op.utility.wipe()
     
 # Create the Basic Model

@@ -2,6 +2,11 @@
 A wrapper around the OpenSeesPy libray that contains docstrings and easier function calls.
 All commands can be mixed with basic OpenSeesPy commands.
 
+
+
+
+![demo](docs/img/docstring2.JPG)
+
 # a basic example:
 ```Python
 import openseespyhint as op
