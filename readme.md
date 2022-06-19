@@ -66,10 +66,10 @@ else:
 Currently being built and tested. The build status of commands is as follows:
 
 ## model
- - [x]   element
+ - []   element (in progress)
  - [x]   node
  - [x]   SP_Constraint
- - [x]   mp_constraint
+ - []   mp_constraint
  - [x]   pc
  - [x]   timeSeries
  - [x]   pattern
@@ -78,8 +78,8 @@ Currently being built and tested. The build status of commands is as follows:
  - [x]   reyleigh
  - [x]   block
  - [x]   beamIntegration
- - [x]   uniaxialMaterial
- - [x]   ndMaterial
+ - []   uniaxialMaterial (in progress)
+ - []   ndMaterial (in progress)
  - [x]   section
  - [x]   frictionModel
  - [x]   geomTransf
